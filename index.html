@@ -2021,12 +2021,21 @@
             "retina_detect": true
         });
         
-                function enviarEmail(plano) {
+  function enviarEmail(plano) {
     const email = 'the.godkskd@gmail.com';
     const subject = encodeURIComponent(`Solicitação de ${plano}`);
     const body = encodeURIComponent(`Olá! Gostaria de solicitar o ${plano}.\n\nAguardo retorno!`);
-    const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${email}&su=${subject}&body=${body}`;
-    window.open(gmailUrl, '_blank');
+
+    const isMobile = /Android|iPhone|iPad|iPod|Opera Mini|IEMobile/i.test(navigator.userAgent);
+
+    if (isMobile) {
+      // Abrir no app de e-mail
+      window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
+    } else {
+      // Abrir o Gmail no navegador
+      const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${email}&su=${subject}&body=${body}`;
+      window.open(gmailUrl, '_blank');
+    }
   }
 
   window.history.scrollRestoration = 'manual'; // Impede o navegador de lembrar a posição antiga
