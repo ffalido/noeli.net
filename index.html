@@ -2021,7 +2021,7 @@
             "retina_detect": true
         });
         
- function enviarEmail(plano) {
+  function enviarEmail(plano) {
     const email = 'the.godkskd@gmail.com';
     const subject = encodeURIComponent(`Solicitação de ${plano}`);
     const body = encodeURIComponent(`Olá! Gostaria de solicitar o ${plano}.\n\nAguardo retorno!`);
@@ -2029,12 +2029,10 @@
     const isMobile = /Android|iPhone|iPad|iPod|Opera Mini|IEMobile/i.test(navigator.userAgent);
 
     if (isMobile) {
-      // Configura o link invisível para o app de e-mail
-      const a = document.getElementById("mobile-mail-link");
-      a.href = `mailto:${email}?subject=${subject}&body=${body}`;
-      a.click(); // Dispara o clique normalmente
+      // 📱 Abre o app de e-mail do celular
+      window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
     } else {
-      // PC → Gmail na nova aba
+      // 💻 Abre o Gmail Web numa nova guia
       const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${email}&su=${subject}&body=${body}`;
       window.open(gmailUrl, '_blank');
     }
