@@ -1434,7 +1434,7 @@
 
         <!-- Seção Propostas -->
         <section id="proposals" class="proposals-section">
-            <h2>Atedimento</h2>
+            <h2>Atendimento</h2>
             <div class="proposal-grid">
                 <div class="proposal-card">
                     <div class="proposal-header">
@@ -1448,7 +1448,7 @@
                         <li>Formato PNG/JPG</li>
                         <li>Resolução Full HD</li>
                     </ul>
-                    <a href="mailto:the.godkskd@gmail.com?subject=Solicitação%20Plano%20Básico&body=Olá!%20Gostaria%20de%20solicitar%20o%20Plano%20Básico.%0A%0ADetalhes%20do%20plano:%0A- 1 Thumbnail personalizado%0A- 1 Revisão%0A- Entrega em 72h%0A- Formato PNG/JPG%0A- Resolução Full HD" class="proposal-btn">Solicitar</a>
+                    <button class="proposal-btn" onclick="enviarEmail('Plano Básico')">Solicitar</button>
                 </div>
                 
                 <div class="proposal-card">
@@ -1463,7 +1463,7 @@
                         <li>Formato PNG/JPG</li>
                         <li>Resolução 4K</li>
                     </ul>
-                    <a href="#budget" class="proposal-btn">Solicitar</a>
+                    <button class="proposal-btn" onclick="enviarEmail('Plano Mediano')">Solicitar</button>
                 </div>
                 
                 <div class="proposal-card">
@@ -1479,7 +1479,7 @@
                         <li>Resolução 4K</li>
                         <li>Template personalizado</li>
                     </ul>
-                    <a href="#budget" class="proposal-btn">Solicitar</a>
+                    <button class="proposal-btn" onclick="enviarEmail('Plano Avançado')">Solicitar</button>
                 </div>
             </div>
 
@@ -2021,6 +2021,15 @@
             "retina_detect": true
         });
         
+                function enviarEmail(plano) {
+    const email = 'the.godkskd@gmail.com';
+    const subject = encodeURIComponent(`Solicitação de ${plano}`);
+    const body = encodeURIComponent(`Olá! Gostaria de solicitar o ${plano}.\n\nAguardo retorno!`);
+    const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${email}&su=${subject}&body=${body}`;
+    window.open(gmailUrl, '_blank');
+  }
+
+
         // Animação do formulário
         const form = document.querySelector('.budget-form');
         if (form) {
