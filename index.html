@@ -7,10 +7,11 @@
     <meta name="description" content="Quer dar um upgrade visual no seu conteúdo? Conte comigo para entregar trabalhos rápidos, criativos e que realmente convertem espectadores em fãs. Vamos juntos construir sua imagem e alcançar resultados incríveis!">
     <meta name="keywords" content="portfólio, thumbmaker, design gráfico, orçamentos">
     <meta name="author" content="the_godkskd">
+    <meta http-equiv="cache-control" content="no-cache">
     <title>noeli.net</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" rel="stylesheet">
-    <link rel="icon" href="https://raw.githubusercontent.com/ffalido/noeli.net/c124e45e315b9a38e1a810751332b7bf3fd257b0/nmrv7.png" type="image/png">
+    <link rel="icon" href="images/nmrv7.png" type="image/png">
 
 
     <style>
@@ -43,7 +44,7 @@
             overflow-x: hidden;
             position: relative;
             min-height: 100vh;
-            cursor: url("https://raw.githubusercontent.com/ffalido/noeli.net/refs/heads/main/Normal.png") , auto;
+            cursor: url("images/Normal.png") , auto;
         }
 
         #particles-js {
@@ -260,7 +261,7 @@
             position: relative;
             overflow: hidden;
         }
-
+        
         .btn-primary {
             background: linear-gradient(45deg, var(--primary-light), var(--secondary-color));
             color: white;
@@ -963,6 +964,120 @@
             box-shadow: 0 10px 20px rgba(155, 89, 182, 0.4);
         }
 
+                /* Página de Termos */
+        .terms-section {
+            padding: 5rem 0;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .terms-section h2 {
+            font-size: 2.8rem;
+            margin-bottom: 3rem;
+            text-align: center;
+            color: var(--primary-light);
+            background: linear-gradient(45deg, var(--primary-light), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientFlow 6s ease infinite;
+        }
+
+        .terms-form {
+            background-color: var(--bg-light);
+            border-radius: 15px;
+            padding: 3rem;
+            max-width: 850px;
+            margin: 0 auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(106, 13, 173, 0.3);
+            transform: perspective(1000px) rotateX(0deg);
+            transition: transform 0.5s ease, box-shadow 0.5s ease;
+            animation: slideInFromBottom 0.8s ease-out;
+        }
+
+        .terms-form:hover {
+            transform: perspective(1000px) rotateX(5deg);
+            box-shadow: 0 15px 40px rgba(106, 13, 173, 0.3);
+        }
+
+        .form-group {
+            margin-bottom: 1.8rem;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.6rem;
+            font-weight: 500;
+            color: var(--text-color);
+            transition: all 0.3s ease;
+        }
+
+        .form-group:hover label {
+            color: var(--secondary-color);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.8rem 1.2rem;
+            border-radius: 8px;
+            border: 1px solid rgba(106, 13, 173, 0.5);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 3px rgba(155, 89, 182, 0.3);
+            transform: scale(1.02);
+        }
+
+        textarea.form-control {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            display: block;
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(45deg, var(--primary-light), var(--secondary-color));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            margin-top: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 10px 25px rgba(155, 89, 182, 0.5);
+        }
+
+        .submit-btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, var(--secondary-color), var(--primary-light));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .submit-btn:hover::after {
+            opacity: 1;
+        }
+
+
         /* Footer */
         footer {
             background-color: var(--bg-dark);
@@ -1620,7 +1735,32 @@
                      <h3 class="social-title">Guns.lol</h3>
                      <p class="social-desc">Acesse todas as nossas redes em um único lugar!</p>
                      <a href="https://guns.lol/the_godkskd" target="_blank" class="social-link">Visualizar Guns.lol</a>
+                </div>>
+
+        <!-- Seção Termos -->
+        <section id="terms" class="terms-section">
+            <h2>Termos de Compras</h2>
+            <form class="terms-form">
+                <div class="form-group">
+                    <h3>Em Manutenção!</h3>
                 </div>
+                
+                <div class="form-group">
+                    <p>Em Manutenção!</p>
+                </div>
+                
+                <div class="form-group">
+                    <label for="details">🧾 • Você Aceita os Termos?</label>
+                    <textarea id="details" class="form-control" placeholder="obs: após qualquer compra, você obrigatoriamente jà estará aceitando."></textarea>
+                </div>
+                
+                <button class="submit-btn">
+  Aceitar Termos
+</button>
+
+            </form>
+        </section>
+
 
             </div>
         </section>
@@ -1631,20 +1771,21 @@
         <div class="footer-wave"></div>
         <div class="footer-container">
             <div class="footer-logo">
-                <img src="https://raw.githubusercontent.com/ffalido/noeli.net/c124e45e315b9a38e1a810751332b7bf3fd257b0/nmrv7.png" alt="noeli.net">
+                <img src="images/nmrv7.png" alt="noeli.net">
                 <h2>noeli.net</h2>
             </div>
             
-            <div class="footer-links">
-                <a href="#home">Home</a>
-                <a href="#budget">Orçamentos</a>
-                <a href="#proposals">Propostas</a>
-                <a href="#testimonials">Feedbacks</a>
-                <a href="#portfolio">Portfólio</a>
-                <a href="#links">Links & Redes</a>
-                <a href="#">Termos de Serviço</a>
-                <a href="#">Política de Privacidade</a>
-            </div>
+<div class="footer-links">
+  <a href="#home">Home</a>
+  <a href="#budget">Orçamentos</a>
+  <a href="#proposals">Propostas</a>
+  <a href="#testimonials">Feedbacks</a>
+  <a href="#portfolio">Portfólio</a>
+  <a href="#links">Links & Redes</a>
+  <a href="#terms">Termos de Serviço</a>
+  <a href="#">Política de Privacidade</a>
+</div>
+
             
             <div class="footer-social">
 <a href="https://www.behance.net/noeli" target="_blank">
@@ -1765,7 +1906,7 @@
                     "value": 80,
                     "density": {
                         "enable": true,
-                        "value_area": 800
+                        "value_area": 900
                     }
                 },
                 "color": {
