@@ -2025,11 +2025,17 @@
     const email = 'the.godkskd@gmail.com';
     const subject = encodeURIComponent(`Solicitação de ${plano}`);
     const body = encodeURIComponent(`Olá! Gostaria de solicitar o ${plano}.\n\nAguardo retorno!`);
-    const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${email}&su=${subject}&body=${body}`;
+    const gmailUrl = `malito:https://mail.google.com/mail/?view=cm&fs=1&to=${email}&su=${subject}&body=${body}`;
     window.open(gmailUrl, '_blank');
   }
 
+  window.history.scrollRestoration = 'manual'; // Impede o navegador de lembrar a posição antiga
 
+  window.addEventListener('load', () => {
+    // Vai direto para o topo da página
+    window.scrollTo({ top: 0, behavior: 'auto' });
+  });
+  
         // Animação do formulário
         const form = document.querySelector('.budget-form');
         if (form) {
