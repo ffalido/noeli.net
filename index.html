@@ -15,6 +15,66 @@
 
 
     <style>
+    .ok-toast {
+    position: fixed;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: #000;
+    border: 2px solid #a855f7;
+    color: white;
+    border-radius: 40px;
+    padding: 12px 24px;
+    box-shadow: 0 0 10px #a855f7, 0 0 20px #a855f7;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 16px;
+    font-family: Arial, sans-serif;
+    z-index: 9999;
+    opacity: 0;
+    animation: slideToast 3s ease-in-out forwards;
+    max-width: 90vw;
+    word-break: break-word;
+  }
+
+  .ok-toast i {
+    font-size: 22px;
+    color: #a855f7;
+  }
+
+  @keyframes slideToast {
+    0% {
+      opacity: 0;
+      transform: translateX(-50%) translateY(20px);
+    }
+    10% {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+    70% {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+    100% {
+      opacity: 0;
+      transform: translateX(-50%) translateY(20px);
+    }
+  }
+
+  /* 🌐 Versão Mobile */
+  @media (max-width: 600px) {
+    .ok-toast {
+      padding: 10px 16px;
+      font-size: 14px;
+      border-radius: 30px;
+    }
+
+    .ok-toast i {
+      font-size: 18px;
+    }
+  }
+        
         /* Reset e Estilos Globais */
         * {
             margin: 0;
@@ -2032,8 +2092,8 @@
       // 📱 Abre o app de e-mail do celular
       window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
     } else {
-      // 💻 Abre o Gmail Web numa nova guia
-      const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${email}&su=${subject}&body=${body}`;
+      // 💻 Abre o Gmail Web numa nova guia1&to=${email}&su=${subject}&body=${body
+      const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=}`;
       window.open(gmailUrl, '_blank');
     }
   }
@@ -2101,6 +2161,18 @@
                 }
             });
         });
+
+          window.addEventListener("load", () => {
+    const toast = document.createElement("div");
+    toast.className = "ok-toast";
+    toast.innerHTML = `<i>✔️</i> Página atualizada com sucesso`;
+
+    document.body.appendChild(toast);
+
+    setTimeout(() => {
+      toast.remove();
+    }, 3000);
+  });
     </script>
 </body>
 </html>
