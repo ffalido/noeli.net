@@ -15,7 +15,7 @@
 
 
     <style>
-    .ok-toast {
+  .ok-toast {
     position: fixed;
     bottom: 40px;
     left: 50%;
@@ -62,7 +62,6 @@
     }
   }
 
-  /* 🌐 Versão Mobile */
   @media (max-width: 600px) {
     .ok-toast {
       padding: 10px 16px;
@@ -2162,16 +2161,23 @@
             });
         });
 
-          window.addEventListener("load", () => {
-    const toast = document.createElement("div");
-    toast.className = "ok-toast";
-    toast.innerHTML = `<i>✔️</i> Página atualizada com sucesso`;
+ window.addEventListener("load", () => {
+    const navEntry = performance.getEntriesByType("navigation")[0];
 
-    document.body.appendChild(toast);
+    const foiRecarregado =
+      navEntry?.type === "reload" ||
+      performance.navigation?.type === 1; // fallback antigo
 
-    setTimeout(() => {
-      toast.remove();
-    }, 3000);
+    if (foiRecarregado) {
+      const toast = document.createElement("div");
+      toast.className = "ok-toast";
+      toast.innerHTML = `<i>✔️</i> Página atualizada com sucesso`;
+      document.body.appendChild(toast);
+
+      setTimeout(() => {
+        toast.remove();
+      }, 3000);
+    }
   });
     </script>
 </body>
