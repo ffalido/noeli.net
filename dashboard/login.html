@@ -3,112 +3,299 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>noeli.net™ | Acesso ao Dashboard</title>
+    <title>noeli.net™ | Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="../assets/css/dashboard.css">
     <style>
+        /* Reset e Variáveis */
+        :root {
+            --primary: #9b59b6;
+            --primary-dark: #6a0dad;
+            --secondary: #ff6bff;
+            --bg: #121212;
+            --bg-light: #1e1e1e;
+            --bg-dark: #0a0a0a;
+            --text: #f0f0f0;
+            --text-muted: #b8b8b8;
+            --success: #2ecc71;
+            --error: #e74c3c;
+            --warning: #f39c12;
+            --sidebar-width: 280px;
+            --header-height: 70px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            overflow-x: hidden;
+        }
+
+        /* Partículas de Fundo */
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            background: linear-gradient(135deg, var(--bg-dark) 0%, var(--bg) 100%);
+        }
+
+        /* Animações */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideInFromTop {
+            from { transform: translateY(-100%); }
+            to { transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        /* Login Container */
+        #loginContainer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 2rem;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .login-card {
+            background-color: rgba(30, 30, 30, 0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 2.5rem;
+            max-width: 450px;
+            width: 100%;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(106, 13, 173, 0.3);
+            transform: perspective(1000px) rotateX(0deg);
+            transition: transform 0.5s ease, box-shadow 0.5s ease;
+        }
+
+        .login-card:hover {
+            transform: perspective(1000px) rotateX(5deg);
+            box-shadow: 0 15px 40px rgba(106, 13, 173, 0.3);
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .login-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+
+        .login-logo img {
+            height: 50px;
+            margin-right: 10px;
+            animation: pulse 4s infinite;
+        }
+
+        .login-logo h1 {
+            font-size: 1.8rem;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .login-title {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .login-subtitle {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Auth Steps */
         .auth-steps {
             display: flex;
             justify-content: center;
             margin-bottom: 2rem;
             position: relative;
         }
-        
+
         .step {
             width: 40px;
             height: 40px;
             border-radius: 50%;
             background-color: var(--bg-light);
-            border: 2px solid var(--primary-light);
+            border: 2px solid var(--primary-dark);
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: bold;
-            color: var(--text-color);
             position: relative;
             z-index: 2;
             transition: all 0.3s ease;
         }
-        
+
         .step.active {
-            background-color: var(--primary-light);
+            background: var(--primary);
+            border-color: var(--primary);
             color: white;
             transform: scale(1.1);
         }
-        
+
         .step.completed {
-            background-color: var(--success-color);
-            border-color: var(--success-color);
+            background-color: var(--success);
+            border-color: var(--success);
             color: white;
         }
-        
+
         .step-line {
             position: absolute;
             top: 50%;
             left: 0;
             width: 100%;
             height: 2px;
-            background-color: var(--primary-light);
+            background-color: var(--primary-dark);
             z-index: 1;
         }
-        
+
         .step-progress {
             position: absolute;
             top: 50%;
             left: 0;
             height: 2px;
-            background-color: var(--secondary-color);
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
             z-index: 1;
-            transition: width 0.5s ease;
+            transition: width 0.4s ease;
         }
-        
+
+        /* Auth Forms */
         .auth-form {
             display: none;
             animation: fadeIn 0.5s ease;
         }
-        
+
         .auth-form.active {
             display: block;
         }
-        
-        .error-message {
-            color: var(--error-color);
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.8rem 1.2rem;
+            background-color: var(--bg);
+            border: 1px solid rgba(106, 13, 173, 0.5);
+            border-radius: 8px;
+            color: var(--text);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 3px rgba(155, 89, 182, 0.3);
+        }
+
+        .hint {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 0.3rem;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(155, 89, 182, 0.4);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--text);
+            border: 1px solid var(--primary);
+        }
+
+        .btn-outline:hover {
+            background-color: rgba(106, 13, 173, 0.2);
+        }
+
+        /* Alert Messages */
+        .alert {
+            padding: 0.8rem 1.2rem;
+            border-radius: 8px;
+            margin-top: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .alert-error {
             background-color: rgba(231, 76, 60, 0.2);
-            padding: 0.8rem;
-            border-radius: 5px;
-            margin-top: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            animation: shake 0.5s ease;
+            border: 1px solid var(--error);
+            color: var(--error);
         }
-        
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            20%, 60% { transform: translateX(-5px); }
-            40%, 80% { transform: translateX(5px); }
-        }
-        
-        .success-message {
-            color: var(--success-color);
+
+        .alert-success {
             background-color: rgba(46, 204, 113, 0.2);
-            padding: 0.8rem;
-            border-radius: 5px;
-            margin-top: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+            border: 1px solid var(--success);
+            color: var(--success);
         }
+
     </style>
 </head>
 <body>
+    <!-- Partículas de Fundo -->
     <div id="particles-js"></div>
-    
-    <div class="login-container">
+
+    <!-- Login Container -->
+    <div id="loginContainer">
         <div class="login-card">
             <div class="login-header">
                 <div class="login-logo">
-                    <img src="../assets/images/nmrv21.png" alt="noeli.net">
+                    <img src="../images/nmrv21.png" alt="noeli.net">
                     <h1>noeli.net</h1>
                 </div>
                 <h2 class="login-title">Painel de Controle</h2>
@@ -126,28 +313,25 @@
             <!-- Formulário de Email -->
             <form id="emailForm" class="auth-form active">
                 <div class="form-group">
-                    <label for="loginEmail">E-mail Administrativo</label>
-                    <input type="email" id="loginEmail" class="form-control" placeholder="seu@email.com" required>
+                    <label for="email">E-mail Administrativo</label>
+                    <input type="email" id="email" class="form-control" placeholder="seu@email.com" required>
                     <div class="hint">Use o e-mail cadastrado no sistema</div>
                 </div>
                 
-                <div class="form-group">
-                    <button type="submit" class="btn btn-primary" style="width: 100%;">
-                        <i class="fas fa-arrow-right"></i> Continuar
-                    </button>
-                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">
+                    <i class="fas fa-arrow-right"></i> Continuar
+                </button>
             </form>
             
             <!-- Formulário de Token -->
             <form id="tokenForm" class="auth-form">
                 <div class="form-group">
-                    <label for="loginToken">Token de Acesso</label>
-                    <input type="password" id="loginToken" class="form-control" placeholder="Digite seu token" required>
-                    <div class="hint">Token padrão: 1533</div>
+                    <label for="token">Token de Acesso</label>
+                    <input type="password" id="token" class="form-control" placeholder="Digite seu token" required>
                 </div>
                 
                 <div class="form-group">
-                    <button type="button" class="btn btn-outline" id="backToEmail" style="margin-right: 0.5rem;">
+                    <button type="button" id="backToEmail" class="btn btn-outline" style="margin-right: 0.5rem;">
                         <i class="fas fa-arrow-left"></i> Voltar
                     </button>
                     <button type="submit" class="btn btn-primary">
@@ -161,11 +345,10 @@
                 <div class="form-group">
                     <label for="dashboardCode">Código do Dashboard</label>
                     <input type="text" id="dashboardCode" class="form-control" placeholder="Digite o código" required>
-                    <div class="hint">Código do site: 281988</div>
                 </div>
                 
                 <div class="form-group">
-                    <button type="button" class="btn btn-outline" id="backToToken" style="margin-right: 0.5rem;">
+                    <button type="button" id="backToToken" class="btn btn-outline" style="margin-right: 0.5rem;">
                         <i class="fas fa-arrow-left"></i> Voltar
                     </button>
                     <button type="submit" class="btn btn-primary">
@@ -174,23 +357,284 @@
                 </div>
             </form>
             
-            <div id="errorMessage" class="error-message" style="display: none;">
+            <div id="alert" class="alert" style="display: none;">
                 <i class="fas fa-exclamation-circle"></i>
-                <span id="errorText"></span>
-            </div>
-            
-            <div id="successMessage" class="success-message" style="display: none;">
-                <i class="fas fa-check-circle"></i>
-                <span id="successText"></span>
+                <span id="alertMessage"></span>
             </div>
         </div>
     </div>
 
-    <script src="../assets/js/auth.js"></script>
-    <script src="../assets/js/particles.js"></script>
+    <!-- Dashboard Container (inicialmente escondido) -->
+    <div id="dashboardContainer">
+        <!-- Sidebar -->
+        <aside class="dashboard-sidebar">
+            <div class="sidebar-header">
+                <img src="assets/images/nmrv21.png" alt="Logo">
+                <h2>noeli.net</h2>
+            </div>
+            
+            <ul class="sidebar-menu">
+                <li class="active">
+                    <a href="#dashboard">
+                        <i class="fas fa-tachometer-alt"></i> Dashboard
+                    </a>
+                </li>
+                <li>
+                    <a href="#posts">
+                        <i class="fas fa-newspaper"></i> Posts
+                    </a>
+                </li>
+                <li>
+                    <a href="#analytics">
+                        <i class="fas fa-chart-line"></i> Análises
+                    </a>
+                </li>
+                <li>
+                    <a href="#settings">
+                        <i class="fas fa-cog"></i> Configurações
+                    </a>
+                </li>
+            </ul>
+        </aside>
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script>
+        // Configuração das partículas
         particlesJS("particles-js", {
-            /* Configuração das partículas igual ao seu site principal */
+            "particles": {
+                "number": {
+                    "value": 80,
+                    "density": {
+                        "enable": true,
+                        "value_area": 800
+                    }
+                },
+                "color": {
+                    "value": "#9b59b6"
+                },
+                "shape": {
+                    "type": "circle",
+                    "stroke": {
+                        "width": 0,
+                        "color": "#000000"
+                    }
+                },
+                "opacity": {
+                    "value": 0.5,
+                    "random": true,
+                    "anim": {
+                        "enable": true,
+                        "speed": 1,
+                        "opacity_min": 0.1,
+                        "sync": false
+                    }
+                },
+                "size": {
+                    "value": 3,
+                    "random": true,
+                    "anim": {
+                        "enable": true,
+                        "speed": 2,
+                        "size_min": 0.1,
+                        "sync": false
+                    }
+                },
+                "line_linked": {
+                    "enable": true,
+                    "distance": 150,
+                    "color": "#6a0dad",
+                    "opacity": 0.4,
+                    "width": 1
+                },
+                "move": {
+                    "enable": true,
+                    "speed": 1,
+                    "direction": "none",
+                    "random": true,
+                    "straight": false,
+                    "out_mode": "out",
+                    "bounce": false,
+                    "attract": {
+                        "enable": true,
+                        "rotateX": 600,
+                        "rotateY": 1200
+                    }
+                }
+            },
+            "interactivity": {
+                "detect_on": "canvas",
+                "events": {
+                    "onhover": {
+                        "enable": true,
+                        "mode": "grab"
+                    },
+                    "onclick": {
+                        "enable": true,
+                        "mode": "push"
+                    }
+                }
+            }
+        });
+
+        // Configurações do sistema
+        const CONFIG = {
+            ADMIN_EMAIL: "the.godkskd@gmail.com",
+            ADMIN_TOKEN: "1533",
+            DASHBOARD_CODE: "281988"
+        };
+
+        // Elementos do DOM
+        const loginContainer = document.getElementById('loginContainer');
+        const dashboardContainer = document.getElementById('dashboardContainer');
+        const emailForm = document.getElementById('emailForm');
+        const tokenForm = document.getElementById('tokenForm');
+        const dashboardForm = document.getElementById('dashboardForm');
+        const emailInput = document.getElementById('email');
+        const tokenInput = document.getElementById('token');
+        const dashboardCodeInput = document.getElementById('dashboardCode');
+        const backToEmail = document.getElementById('backToEmail');
+        const backToToken = document.getElementById('backToToken');
+        const alertBox = document.getElementById('alert');
+        const alertMessage = document.getElementById('alertMessage');
+        const step1 = document.getElementById('step1');
+        const step2 = document.getElementById('step2');
+        const step3 = document.getElementById('step3');
+        const stepProgress = document.getElementById('stepProgress');
+
+        // Estado da autenticação
+        let currentStep = 1;
+
+        // Event Listeners
+        emailForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = emailInput.value.trim();
+            
+            if (!validateEmail(email)) {
+                showAlert("Por favor, insira um e-mail válido", "error");
+                return;
+            }
+            
+            if (email !== CONFIG.ADMIN_EMAIL) {
+                showAlert("E-mail administrativo não reconhecido", "error");
+                return;
+            }
+            
+            showAlert("E-mail verificado com sucesso!", "success");
+            nextStep();
+        });
+
+        tokenForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const token = tokenInput.value.trim();
+            
+            if (token !== CONFIG.ADMIN_TOKEN) {
+                showAlert("Token de acesso incorreto", "error");
+                return;
+            }
+            
+            showAlert("Token validado com sucesso!", "success");
+            nextStep();
+        });
+
+        dashboardForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const code = dashboardCodeInput.value.trim();
+            
+            if (code !== CONFIG.DASHBOARD_CODE) {
+                showAlert("Código do dashboard inválido", "error");
+                return;
+            }
+            
+            showAlert("Autenticação concluída! Acessando painel...", "success");
+            
+            // Simular autenticação bem-sucedida
+            setTimeout(() => {
+                loginContainer.style.display = 'none';
+                dashboardContainer.style.display = 'block';
+            }, 1000);
+        });
+
+        backToEmail.addEventListener('click', () => {
+            prevStep(1);
+        });
+
+        backToToken.addEventListener('click', () => {
+            prevStep(2);
+        });
+
+        // Funções de navegação
+        function nextStep() {
+            // Esconder formulário atual
+            document.querySelector('.auth-form.active').classList.remove('active');
+            
+            // Atualizar progresso
+            if (currentStep === 1) {
+                step1.classList.remove('active');
+                step1.classList.add('completed');
+                step2.classList.add('active');
+                stepProgress.style.width = '33%';
+                tokenForm.classList.add('active');
+                currentStep = 2;
+            } else if (currentStep === 2) {
+                step2.classList.remove('active');
+                step2.classList.add('completed');
+                step3.classList.add('active');
+                stepProgress.style.width = '66%';
+                dashboardForm.classList.add('active');
+                currentStep = 3;
+            }
+        }
+
+        function prevStep(targetStep) {
+            // Esconder formulário atual
+            document.querySelector('.auth-form.active').classList.remove('active');
+            
+            // Atualizar progresso
+            if (targetStep === 1) {
+                step2.classList.remove('active');
+                step1.classList.add('active');
+                step1.classList.remove('completed');
+                stepProgress.style.width = '0%';
+                emailForm.classList.add('active');
+                currentStep = 1;
+            } else if (targetStep === 2) {
+                step3.classList.remove('active');
+                step2.classList.add('active');
+                step2.classList.remove('completed');
+                stepProgress.style.width = '33%';
+                tokenForm.classList.add('active');
+                currentStep = 2;
+            }
+        }
+
+        // Funções de utilidade
+        function validateEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+
+        function showAlert(message, type) {
+            alertMessage.textContent = message;
+            alertBox.className = `alert alert-${type}`;
+            alertBox.style.display = 'flex';
+            
+            // Atualizar ícone
+            const icon = alertBox.querySelector('i');
+            icon.className = type === 'error' ? 'fas fa-exclamation-circle' : 'fas fa-check-circle';
+            
+            // Esconder após alguns segundos
+            setTimeout(() => {
+                alertBox.style.display = 'none';
+            }, 5000);
+        }
+
+        // Verificar se já está autenticado (para desenvolvimento)
+        document.addEventListener('DOMContentLoaded', () => {
+            // REMOVA ISSO EM PRODUÇÃO - apenas para testes
+            if (window.location.hash === '#dev') {
+                loginContainer.style.display = 'none';
+                dashboardContainer.style.display = 'block';
+            }
         });
     </script>
 </body>
