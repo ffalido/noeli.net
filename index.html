@@ -1498,14 +1498,14 @@
                 <div class="proposal-card">
                     <div class="proposal-header">
                         <h3 class="proposal-title">Básico</h3>
-                        <div class="proposal-price">R$ 14.99/s</div>
+                        <div class="proposal-price">R$14.99/s</div>
                     </div>
                     <ul class="proposal-features">
-                        <li>1 Thumbnail personalizado</li>
-                        <li>1 Revisão</li>
-                        <li>Entrega em 72h</li>
-                        <li>Formato PNG/JPG</li>
-                        <li>Resolução Full HD</li>
+                        <li>1 Semana</li>
+                        <li>5 Revisão</li>
+                        <li>Entrega em 24H</li>
+                        <li>Formato PNG</li>
+                        <li>Resolução Automática</li>
                     </ul>
                     <button class="proposal-btn" onclick="enviarEmail('Plano Básico')">Solicitar</button>
                 </div>
@@ -1513,14 +1513,14 @@
                 <div class="proposal-card">
                     <div class="proposal-header">
                         <h3 class="proposal-title">Mediano</h3>
-                        <div class="proposal-price">R$ 24.99/s</div>
+                        <div class="proposal-price">R$24.99/s</div>
                     </div>
                     <ul class="proposal-features">
-                        <li>3 Thumbnails personalizados</li>
-                        <li>3 Revisões (1 por thumbnail)</li>
-                        <li>Entrega em 48h</li>
+                        <li>1 Mês</li>
+                        <li>3 Revisões (por thumbnail)</li>
+                        <li>Entrega em 12H</li>
                         <li>Formato PNG/JPG</li>
-                        <li>Resolução 4K</li>
+                        <li>Resolução Full HD</li>
                     </ul>
                     <button class="proposal-btn" onclick="enviarEmail('Plano Mediano')">Solicitar</button>
                 </div>
@@ -1528,20 +1528,19 @@
                 <div class="proposal-card">
                     <div class="proposal-header">
                         <h3 class="proposal-title">Avançado</h3>
-                        <div class="proposal-price">R$ 56,99/m</div>
+                        <div class="proposal-price">R$56,99/m</div>
                     </div>
                     <ul class="proposal-features">
-                        <li>5 Thumbnails personalizados</li>
+                        <li>1 Ano</li>
                         <li>Revisões ilimitadas</li>
-                        <li>Entrega em 24h</li>
-                        <li>Formato PNG/JPG/PSD</li>
+                        <li>Entrega em 4H</li>
+                        <li>Formato PNG/JPG</li>
                         <li>Resolução 4K</li>
-                        <li>Template personalizado</li>
+                        <li>Disponibilidade de resposta maior</li>
                     </ul>
                     <button class="proposal-btn" onclick="enviarEmail('Plano Avançado')">Solicitar</button>
                 </div>
-            </div>
-
+            </div> 
         </section>
 
         <!-- Seção Feedbacks -->
@@ -1878,6 +1877,7 @@
   <a href="#testimonials">Feedbacks</a>
   <a href="#portfolio">Portfólio</a>
   <a href="#links">Links & Redes</a>
+  <a href="#blog">Blog</a>
   <a href="#terms">Termos de Serviço</a>
   <a href="#">Política de Privacidade</a>
 </div>
@@ -2201,6 +2201,27 @@
       }, 3000);
     }
   });
+
+// Sistema de conexão com o dashboard
+document.addEventListener('DOMContentLoaded', () => {
+    // Verificar se há tentativa de acesso ao dashboard
+    if (window.location.hash === '#dashboard') {
+        const authWindow = window.open('dashboard/login.html', '_blank');
+        
+        // Ouvir mensagens do dashboard
+        window.addEventListener('message', (event) => {
+            if (event.data.type === 'DASHBOARD_AUTH') {
+                console.log("Autenticação recebida do dashboard:", event.data.payload);
+                // Você pode usar esses dados para sincronização
+            }
+        });
+    }
+    
+    // Código de verificação do dashboard
+    const dashboardCode = "281988";
+    localStorage.setItem('dashboardCode', dashboardCode);
+});
+
     </script>
 </body>
 </html>

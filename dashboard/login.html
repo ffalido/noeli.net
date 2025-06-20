@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>noeli.net™ | Acesso ao Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/dashboard.css">
+    <style>
+        .auth-steps {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+        
+        .step {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--bg-light);
+            border: 2px solid var(--primary-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: var(--text-color);
+            position: relative;
+            z-index: 2;
+            transition: all 0.3s ease;
+        }
+        
+        .step.active {
+            background-color: var(--primary-light);
+            color: white;
+            transform: scale(1.1);
+        }
+        
+        .step.completed {
+            background-color: var(--success-color);
+            border-color: var(--success-color);
+            color: white;
+        }
+        
+        .step-line {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--primary-light);
+            z-index: 1;
+        }
+        
+        .step-progress {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            height: 2px;
+            background-color: var(--secondary-color);
+            z-index: 1;
+            transition: width 0.5s ease;
+        }
+        
+        .auth-form {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .auth-form.active {
+            display: block;
+        }
+        
+        .error-message {
+            color: var(--error-color);
+            background-color: rgba(231, 76, 60, 0.2);
+            padding: 0.8rem;
+            border-radius: 5px;
+            margin-top: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            animation: shake 0.5s ease;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-5px); }
+            40%, 80% { transform: translateX(5px); }
+        }
+        
+        .success-message {
+            color: var(--success-color);
+            background-color: rgba(46, 204, 113, 0.2);
+            padding: 0.8rem;
+            border-radius: 5px;
+            margin-top: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div id="particles-js"></div>
+    
+    <div class="login-container">
+        <div class="login-card">
+            <div class="login-header">
+                <div class="login-logo">
+                    <img src="../assets/images/nmrv21.png" alt="noeli.net">
+                    <h1>noeli.net</h1>
+                </div>
+                <h2 class="login-title">Painel de Controle</h2>
+                <p class="login-subtitle">Acesso exclusivo para administradores</p>
+            </div>
+            
+            <div class="auth-steps">
+                <div class="step active" id="step1">1</div>
+                <div class="step" id="step2">2</div>
+                <div class="step" id="step3">3</div>
+                <div class="step-line"></div>
+                <div class="step-progress" id="stepProgress" style="width: 0%"></div>
+            </div>
+            
+            <!-- Formulário de Email -->
+            <form id="emailForm" class="auth-form active">
+                <div class="form-group">
+                    <label for="loginEmail">E-mail Administrativo</label>
+                    <input type="email" id="loginEmail" class="form-control" placeholder="seu@email.com" required>
+                    <div class="hint">Use o e-mail cadastrado no sistema</div>
+                </div>
+                
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">
+                        <i class="fas fa-arrow-right"></i> Continuar
+                    </button>
+                </div>
+            </form>
+            
+            <!-- Formulário de Token -->
+            <form id="tokenForm" class="auth-form">
+                <div class="form-group">
+                    <label for="loginToken">Token de Acesso</label>
+                    <input type="password" id="loginToken" class="form-control" placeholder="Digite seu token" required>
+                    <div class="hint">Token padrão: 1533</div>
+                </div>
+                
+                <div class="form-group">
+                    <button type="button" class="btn btn-outline" id="backToEmail" style="margin-right: 0.5rem;">
+                        <i class="fas fa-arrow-left"></i> Voltar
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-arrow-right"></i> Continuar
+                    </button>
+                </div>
+            </form>
+            
+            <!-- Formulário de Código do Dashboard -->
+            <form id="dashboardForm" class="auth-form">
+                <div class="form-group">
+                    <label for="dashboardCode">Código do Dashboard</label>
+                    <input type="text" id="dashboardCode" class="form-control" placeholder="Digite o código" required>
+                    <div class="hint">Código do site: 281988</div>
+                </div>
+                
+                <div class="form-group">
+                    <button type="button" class="btn btn-outline" id="backToToken" style="margin-right: 0.5rem;">
+                        <i class="fas fa-arrow-left"></i> Voltar
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-sign-in-alt"></i> Acessar
+                    </button>
+                </div>
+            </form>
+            
+            <div id="errorMessage" class="error-message" style="display: none;">
+                <i class="fas fa-exclamation-circle"></i>
+                <span id="errorText"></span>
+            </div>
+            
+            <div id="successMessage" class="success-message" style="display: none;">
+                <i class="fas fa-check-circle"></i>
+                <span id="successText"></span>
+            </div>
+        </div>
+    </div>
+
+    <script src="../assets/js/auth.js"></script>
+    <script src="../assets/js/particles.js"></script>
+    <script>
+        particlesJS("particles-js", {
+            /* Configuração das partículas igual ao seu site principal */
+        });
+    </script>
+</body>
+</html>
