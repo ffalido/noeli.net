@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Ultra Animado do Pai</title>
+    <title>Dashboard Ultra do Pai | Gerenciamento Total</title>
     <style>
         /* Reset e Base */
         * {
@@ -185,6 +185,30 @@
         .login-box p {
             margin-bottom: 25px;
             opacity: 0.8;
+        }
+        
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .form-input {
+            background: var(--glass-bg);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            padding: 12px 15px;
+            color: var(--light-color);
+            width: 100%;
+            transition: var(--transition-fast);
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.3);
         }
         
         /* Botões Glass */
@@ -511,6 +535,84 @@
             flex: 1;
         }
         
+        /* Configurações */
+        .settings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .setting-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 20px;
+            transition: var(--transition-fast);
+        }
+        
+        .setting-card:hover {
+            transform: translateY(-3px);
+        }
+        
+        .setting-title {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .setting-title i {
+            font-size: 1.2rem;
+        }
+        
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+        
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+        
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .slider {
+            background-color: var(--success-color);
+        }
+        
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+        
         /* Animações */
         @keyframes fadeIn {
             from { opacity: 0; }
@@ -579,6 +681,10 @@
                 flex-direction: column;
                 gap: 0;
             }
+            
+            .settings-grid {
+                grid-template-columns: 1fr;
+            }
         }
         
         @media (max-width: 576px) {
@@ -603,11 +709,18 @@
     <!-- Cortina de Login -->
     <div id="login-curtain" class="login-curtain">
         <div class="login-box glass">
-            <h2>Você não está logado</h2>
-            <p>Faça login para acessar o dashboard completo</p>
-            <button id="login-btn" class="glass-btn">
-                <i class="fas fa-sign-in-alt"></i> Fazer Login
-            </button>
+            <h2>Acesso Restrito</h2>
+            <p>Por favor, faça login para acessar o dashboard</p>
+            
+            <form id="login-form" class="login-form">
+                <input type="text" id="login-username" class="form-input" placeholder="Usuário" required>
+                <input type="password" id="login-password" class="form-input" placeholder="Senha" required>
+                <button type="submit" id="login-btn" class="glass-btn">
+                    <i class="fas fa-sign-in-alt"></i> Entrar
+                </button>
+            </form>
+            
+            <div id="login-message" style="margin-top: 15px; color: var(--accent-color);"></div>
         </div>
     </div>
 
@@ -628,37 +741,37 @@
 
             <nav class="sidebar-nav">
                 <ul>
-                    <li class="active">
+                    <li class="active" data-section="dashboard">
                         <a href="#dashboard">
                             <i class="fas fa-tachometer-alt"></i>
                             <span>Dashboard</span>
                         </a>
                     </li>
-                    <li>
+                    <li data-section="blogs">
                         <a href="#blogs">
                             <i class="fas fa-blog"></i>
                             <span>Blogs</span>
                         </a>
                     </li>
-                    <li>
+                    <li data-section="portfolio">
                         <a href="#portfolio">
                             <i class="fas fa-briefcase"></i>
                             <span>Portfólio</span>
                         </a>
                     </li>
-                    <li>
+                    <li data-section="analytics">
                         <a href="#analytics">
                             <i class="fas fa-chart-line"></i>
                             <span>Análises</span>
                         </a>
                     </li>
-                    <li>
+                    <li data-section="configurations">
                         <a href="#configurations">
                             <i class="fas fa-cog"></i>
                             <span>Configurações</span>
                         </a>
                     </li>
-                    <li>
+                    <li data-section="media">
                         <a href="#media">
                             <i class="fas fa-images"></i>
                             <span>Mídia</span>
@@ -670,208 +783,1595 @@
 
         <!-- Conteúdo Principal -->
         <main class="main-content">
-            <div class="header">
-                <h2>Dashboard</h2>
-                <div class="user-menu">
-                    <span>Bem-vindo, Pai</span>
-                    <!-- Imagem em base64 para ser autossuficiente -->
-                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iI2ZmZiIgZD0iTTEyLDJBNyw3IDAgMCwwIDUsOUE3LDcgMCAwLDAgMTIsMTZBNyw3IDAgMCwwIDE5LDlBNyw3IDAgMCwwIDEyLDJNMTIsMTRBNSw1IDAgMCwxIDcsOUA1LDUgMCAwLDEgMTIsNEE1LDUgMCAwLDEgMTcsOUE1LDUgMCAwLDEgMTIsMTRNMTksMjBWMThBOCw4IDAgMCwwIDEyLDEwQTgsOCAwIDAsMCA1LDE4VjIwSDE5WiIgLz48L3N2Zz4=" alt="Usuário" class="user-avatar">
-                    <button id="logout-btn" class="logout-btn">
-                        <i class="fas fa-sign-out-alt"></i> Sair
-                    </button>
-                </div>
-            </div>
-
-            <!-- Cards de Estatísticas -->
-            <div class="cards-container">
-                <div class="card animate-slideInRight" style="animation-delay: 0.1s;">
-                    <div class="card-header">
-                        <div>
-                            <div class="card-title">Visitantes Hoje</div>
-                            <div class="card-value">1,248</div>
-                            <div class="card-change positive">
-                                <i class="fas fa-arrow-up"></i> 12% desde ontem
-                            </div>
-                        </div>
-                        <div class="card-icon blue">
-                            <i class="fas fa-users"></i>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card animate-slideInRight" style="animation-delay: 0.2s;">
-                    <div class="card-header">
-                        <div>
-                            <div class="card-title">Posts do Blog</div>
-                            <div class="card-value">48</div>
-                            <div class="card-change positive">
-                                <i class="fas fa-arrow-up"></i> 3 novos esta semana
-                            </div>
-                        </div>
-                        <div class="card-icon green">
-                            <i class="fas fa-blog"></i>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card animate-slideInRight" style="animation-delay: 0.3s;">
-                    <div class="card-header">
-                        <div>
-                            <div class="card-title">Itens no Portfólio</div>
-                            <div class="card-value">24</div>
-                            <div class="card-change negative">
-                                <i class="fas fa-arrow-down"></i> 1 removido
-                            </div>
-                        </div>
-                        <div class="card-icon orange">
-                            <i class="fas fa-briefcase"></i>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card animate-slideInRight" style="animation-delay: 0.4s;">
-                    <div class="card-header">
-                        <div>
-                            <div class="card-title">Comentários</div>
-                            <div class="card-value">156</div>
-                            <div class="card-change positive">
-                                <i class="fas fa-arrow-up"></i> 8 novos hoje
-                            </div>
-                        </div>
-                        <div class="card-icon pink">
-                            <i class="fas fa-comments"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Seção de Posts Recentes -->
-            <div class="section animate-fadeIn">
-                <div class="section-header">
-                    <h3 class="section-title">Posts Recentes</h3>
-                    <div class="section-actions">
-                        <button class="glass-btn">
-                            <i class="fas fa-plus"></i> Novo Post
-                        </button>
-                        <button class="glass-btn">
-                            <i class="fas fa-filter"></i> Filtrar
+            <!-- Seção Dashboard -->
+            <div id="dashboard-section" class="content-section" style="display: block;">
+                <div class="header">
+                    <h2>Dashboard</h2>
+                    <div class="user-menu">
+                        <span>Bem-vindo, <span id="username-display">Usuário</span></span>
+                        <!-- Imagem em base64 para ser autossuficiente -->
+                        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iI2ZmZiIgZD0iTTEyLDJBNyw3IDAgMCwwIDUsOUE3LDcgMCAwLDAgMTIsMTZBNyw3IDAgMCwwIDE5LDlBNyw3IDAgMCwwIDEyLDJNMTIsMTRBNSw1IDAgMCwxIDcsOUE1LDUgMCAwLDEgMTIsNEE1LDUgMCAwLDEgMTcsOUE1LDUgMCAwLDEgMTIsMTRNMTksMjBWMThBOCw4IDAgMCwwIDEyLDEwQTgsOCAwIDAsMCA1LDE4VjIwSDE5WiIgLz48L3N2Zz4=" alt="Usuário" class="user-avatar">
+                        <button id="logout-btn" class="logout-btn">
+                            <i class="fas fa-sign-out-alt"></i> Sair
                         </button>
                     </div>
                 </div>
 
-                <div class="table-responsive">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Título</th>
-                                <th>Autor</th>
-                                <th>Data</th>
-                                <th>Status</th>
-                                <th>Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Como Criar um Dashboard Incrível</td>
-                                <td>Você</td>
-                                <td id="current-date-1">Carregando...</td>
-                                <td><span class="status-badge published">Publicado</span></td>
-                                <td>
-                                    <button class="action-btn edit"><i class="fas fa-edit"></i></button>
-                                    <button class="action-btn delete"><i class="fas fa-trash"></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Animações CSS que Impressionam</td>
-                                <td>Você</td>
-                                <td id="current-date-2">Carregando...</td>
-                                <td><span class="status-badge published">Publicado</span></td>
-                                <td>
-                                    <button class="action-btn edit"><i class="fas fa-edit"></i></button>
-                                    <button class="action-btn delete"><i class="fas fa-trash"></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Design Glass no Seu Site</td>
-                                <td>Você</td>
-                                <td id="current-date-3">Carregando...</td>
-                                <td><span class="status-badge draft">Rascunho</span></td>
-                                <td>
-                                    <button class="action-btn edit"><i class="fas fa-edit"></i></button>
-                                    <button class="action-btn delete"><i class="fas fa-trash"></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>JavaScript para Dashboards</td>
-                                <td>Você</td>
-                                <td id="current-date-4">Carregando...</td>
-                                <td><span class="status-badge pending">Revisão</span></td>
-                                <td>
-                                    <button class="action-btn edit"><i class="fas fa-edit"></i></button>
-                                    <button class="action-btn delete"><i class="fas fa-trash"></i></button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <!-- Cards de Estatísticas -->
+                <div class="cards-container">
+                    <div class="card animate-slideInRight" style="animation-delay: 0.1s;">
+                        <div class="card-header">
+                            <div>
+                                <div class="card-title">Visitantes Hoje</div>
+                                <div class="card-value">1,248</div>
+                                <div class="card-change positive">
+                                    <i class="fas fa-arrow-up"></i> 12% desde ontem
+                                </div>
+                            </div>
+                            <div class="card-icon blue">
+                                <i class="fas fa-users"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card animate-slideInRight" style="animation-delay: 0.2s;">
+                        <div class="card-header">
+                            <div>
+                                <div class="card-title">Posts do Blog</div>
+                                <div class="card-value" id="total-posts">48</div>
+                                <div class="card-change positive">
+                                    <i class="fas fa-arrow-up"></i> 3 novos esta semana
+                                </div>
+                            </div>
+                            <div class="card-icon green">
+                                <i class="fas fa-blog"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card animate-slideInRight" style="animation-delay: 0.3s;">
+                        <div class="card-header">
+                            <div>
+                                <div class="card-title">Itens no Portfólio</div>
+                                <div class="card-value" id="total-portfolio">24</div>
+                                <div class="card-change negative">
+                                    <i class="fas fa-arrow-down"></i> 1 removido
+                                </div>
+                            </div>
+                            <div class="card-icon orange">
+                                <i class="fas fa-briefcase"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card animate-slideInRight" style="animation-delay: 0.4s;">
+                        <div class="card-header">
+                            <div>
+                                <div class="card-title">Comentários</div>
+                                <div class="card-value">156</div>
+                                <div class="card-change positive">
+                                    <i class="fas fa-arrow-up"></i> 8 novos hoje
+                                </div>
+                            </div>
+                            <div class="card-icon pink">
+                                <i class="fas fa-comments"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Seção de Posts Recentes -->
+                <div class="section animate-fadeIn">
+                    <div class="section-header">
+                        <h3 class="section-title">Posts Recentes</h3>
+                        <div class="section-actions">
+                            <button id="new-post-btn" class="glass-btn">
+                                <i class="fas fa-plus"></i> Novo Post
+                            </button>
+                            <button id="filter-posts-btn" class="glass-btn">
+                                <i class="fas fa-filter"></i> Filtrar
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table id="posts-table">
+                            <thead>
+                                <tr>
+                                    <th>Título</th>
+                                    <th>Autor</th>
+                                    <th>Data</th>
+                                    <th>Status</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="posts-table-body">
+                                <!-- Posts serão carregados aqui via JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
 
-            <!-- Seção de Adicionar Novo Post -->
-            <div class="section animate-fadeIn" style="animation-delay: 0.3s;">
-                <div class="section-header">
-                    <h3 class="section-title">Adicionar Novo Post</h3>
+            <!-- Seção Blogs -->
+            <div id="blogs-section" class="content-section" style="display: none;">
+                <div class="header">
+                    <h2>Gerenciamento de Blog</h2>
+                    <div class="user-menu">
+                        <span>Bem-vindo, <span id="username-display-blogs">Usuário</span></span>
+                        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iI2ZmZiIgZD0iTTEyLDJBNyw3IDAgMCwwIDUsOUE3LDcgMCAwLDAgMTIsMTZBNyw3IDAgMCwwIDE5LDlBNyw3IDAgMCwwIDEyLDJNMTIsMTRBNSw1IDAgMCwxIDcsOUE1LDUgMCAwLDEgMTIsNEE1LDUgMCAwLDEgMTcsOUE1LDUgMCAwLDEgMTIsMTRNMTksMjBWMThBOCw4IDAgMCwwIDEyLDEwQTgsOCAwIDAsMCA1LDE4VjIwSDE5WiIgLz48L3N2Zz4=" alt="Usuário" class="user-avatar">
+                        <button class="logout-btn">
+                            <i class="fas fa-sign-out-alt"></i> Sair
+                        </button>
+                    </div>
                 </div>
 
-                <form id="new-post-form">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="post-title" class="form-label">Título</label>
-                            <input type="text" id="post-title" class="form-control" placeholder="Digite o título do post">
-                        </div>
-                        <div class="form-group">
-                            <label for="post-author" class="form-label">Autor</label>
-                            <input type="text" id="post-author" class="form-control" value="Você" readonly>
+                <div class="section">
+                    <div class="section-header">
+                        <h3 class="section-title">Todos os Posts</h3>
+                        <div class="section-actions">
+                            <button id="create-blog-post" class="glass-btn">
+                                <i class="fas fa-plus"></i> Criar Novo Post
+                            </button>
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label for="post-image" class="form-label">Imagem de Destaque</label>
-                        <input type="file" id="post-image" class="form-control">
+                    <div class="table-responsive">
+                        <table id="all-posts-table">
+                            <thead>
+                                <tr>
+                                    <th>Título</th>
+                                    <th>Categoria</th>
+                                    <th>Visualizações</th>
+                                    <th>Data</th>
+                                    <th>Status</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="all-posts-body">
+                                <!-- Todos os posts serão carregados aqui -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="section" id="edit-post-section" style="display: none;">
+                    <div class="section-header">
+                        <h3 class="section-title">Editar Post</h3>
+                        <div class="section-actions">
+                            <button id="save-post-btn" class="glass-btn">
+                                <i class="fas fa-save"></i> Salvar Alterações
+                            </button>
+                            <button id="cancel-edit-btn" class="glass-btn" style="background: var(--danger-color);">
+                                <i class="fas fa-times"></i> Cancelar
+                            </button>
+                        </div>
                     </div>
 
-                    <div class="form-group">
-                        <label for="post-content" class="form-label">Conteúdo</label>
-                        <textarea id="post-content" class="form-control" placeholder="Digite o conteúdo do post"></textarea>
-                    </div>
+                    <form id="edit-post-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="edit-post-title" class="form-label">Título</label>
+                                <input type="text" id="edit-post-title" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="edit-post-category" class="form-label">Categoria</label>
+                                <select id="edit-post-category" class="form-control" required>
+                                    <option value="tecnologia">Tecnologia</option>
+                                    <option value="design">Design</option>
+                                    <option value="negocios">Negócios</option>
+                                    <option value="pessoal">Pessoal</option>
+                                </select>
+                            </div>
+                        </div>
 
-                    <div class="form-row">
                         <div class="form-group">
-                            <label for="post-status" class="form-label">Status</label>
-                            <select id="post-status" class="form-control">
-                                <option value="draft">Rascunho</option>
-                                <option value="pending">Revisão</option>
-                                <option value="published">Publicar</option>
+                            <label for="edit-post-image" class="form-label">Imagem de Destaque</label>
+                            <input type="file" id="edit-post-image" class="form-control">
+                            <div id="current-image-preview" style="margin-top: 10px;"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="edit-post-content" class="form-label">Conteúdo</label>
+                            <textarea id="edit-post-content" class="form-control" rows="10" required></textarea>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="edit-post-status" class="form-label">Status</label>
+                                <select id="edit-post-status" class="form-control" required>
+                                    <option value="draft">Rascunho</option>
+                                    <option value="pending">Revisão</option>
+                                    <option value="published">Publicado</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="edit-post-date" class="form-label">Data de Publicação</label>
+                                <input type="datetime-local" id="edit-post-date" class="form-control" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="edit-post-tags" class="form-label">Tags (separadas por vírgula)</label>
+                            <input type="text" id="edit-post-tags" class="form-control">
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Seção Portfólio -->
+            <div id="portfolio-section" class="content-section" style="display: none;">
+                <div class="header">
+                    <h2>Gerenciamento de Portfólio</h2>
+                    <div class="user-menu">
+                        <span>Bem-vindo, <span id="username-display-portfolio">Usuário</span></span>
+                        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iI2ZmZiIgZD0iTTEyLDJBNyw3IDAgMCwwIDUsOUE3LDcgMCAwLDAgMTIsMTZBNyw3IDAgMCwwIDE5LDlBNyw3IDAgMCwwIDEyLDJNMTIsMTRBNSw1IDAgMCwxIDcsOUE1LDUgMCAwLDEgMTIsNEE1LDUgMCAwLDEgMTcsOUE1LDUgMCAwLDEgMTIsMTRNMTksMjBWMThBOCw4IDAgMCwwIDEyLDEwQTgsOCAwIDAsMCA1LDE4VjIwSDE5WiIgLz48L3N2Zz4=" alt="Usuário" class="user-avatar">
+                        <button class="logout-btn">
+                            <i class="fas fa-sign-out-alt"></i> Sair
+                        </button>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-header">
+                        <h3 class="section-title">Itens do Portfólio</h3>
+                        <div class="section-actions">
+                            <button id="add-portfolio-item" class="glass-btn">
+                                <i class="fas fa-plus"></i> Adicionar Item
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table id="portfolio-table">
+                            <thead>
+                                <tr>
+                                    <th>Projeto</th>
+                                    <th>Tipo</th>
+                                    <th>Data</th>
+                                    <th>Status</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="portfolio-table-body">
+                                <!-- Itens do portfólio serão carregados aqui -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="section" id="edit-portfolio-section" style="display: none;">
+                    <div class="section-header">
+                        <h3 class="section-title">Editar Item do Portfólio</h3>
+                        <div class="section-actions">
+                            <button id="save-portfolio-btn" class="glass-btn">
+                                <i class="fas fa-save"></i> Salvar
+                            </button>
+                            <button id="cancel-portfolio-btn" class="glass-btn" style="background: var(--danger-color);">
+                                <i class="fas fa-times"></i> Cancelar
+                            </button>
+                        </div>
+                    </div>
+
+                    <form id="portfolio-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="portfolio-title" class="form-label">Título do Projeto</label>
+                                <input type="text" id="portfolio-title" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="portfolio-client" class="form-label">Cliente</label>
+                                <input type="text" id="portfolio-client" class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="portfolio-type" class="form-label">Tipo de Projeto</label>
+                                <select id="portfolio-type" class="form-control" required>
+                                    <option value="website">Website</option>
+                                    <option value="app">Aplicativo</option>
+                                    <option value="design">Design</option>
+                                    <option value="outro">Outro</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="portfolio-date" class="form-label">Data de Conclusão</label>
+                                <input type="date" id="portfolio-date" class="form-control" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="portfolio-description" class="form-label">Descrição</label>
+                            <textarea id="portfolio-description" class="form-control" rows="5" required></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="portfolio-images" class="form-label">Imagens do Projeto (Máx. 5)</label>
+                            <input type="file" id="portfolio-images" class="form-control" multiple>
+                            <div id="portfolio-images-preview" style="margin-top: 15px; display: flex; gap: 10px; flex-wrap: wrap;"></div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="portfolio-url" class="form-label">URL do Projeto</label>
+                                <input type="url" id="portfolio-url" class="form-control" placeholder="https://">
+                            </div>
+                            <div class="form-group">
+                                <label for="portfolio-featured" class="form-label">Destaque</label>
+                                <select id="portfolio-featured" class="form-control">
+                                    <option value="0">Normal</option>
+                                    <option value="1">Destaque</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="portfolio-technologies" class="form-label">Tecnologias Utilizadas (separadas por vírgula)</label>
+                            <input type="text" id="portfolio-technologies" class="form-control">
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Seção Análises -->
+            <div id="analytics-section" class="content-section" style="display: none;">
+                <div class="header">
+                    <h2>Análises e Estatísticas</h2>
+                    <div class="user-menu">
+                        <span>Bem-vindo, <span id="username-display-analytics">Usuário</span></span>
+                        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iI2ZmZiIgZD0iTTEyLDJBNyw3IDAgMCwwIDUsOUE3LDcgMCAwLDAgMTIsMTZBNyw3IDAgMCwwIDE5LDlBNyw3IDAgMCwwIDEyLDJNMTIsMTRBNSw1IDAgMCwxIDcsOUE1LDUgMCAwLDEgMTIsNEE1LDUgMCAwLDEgMTcsOUE1LDUgMCAwLDEgMTIsMTRNMTksMjBWMThBOCw4IDAgMCwwIDEyLDEwQTgsOCAwIDAsMCA1LDE4VjIwSDE5WiIgLz48L3N2Zz4=" alt="Usuário" class="user-avatar">
+                        <button class="logout-btn">
+                            <i class="fas fa-sign-out-alt"></i> Sair
+                        </button>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-header">
+                        <h3 class="section-title">Visão Geral</h3>
+                        <div class="section-actions">
+                            <select id="analytics-period" class="form-control" style="width: auto; display: inline-block;">
+                                <option value="7">Últimos 7 dias</option>
+                                <option value="30" selected>Últimos 30 dias</option>
+                                <option value="90">Últimos 3 meses</option>
+                                <option value="365">Último ano</option>
                             </select>
                         </div>
-                        <div class="form-group">
-                            <label for="post-date" class="form-label">Data</label>
-                            <input type="text" id="post-date" class="form-control" readonly>
+                    </div>
+
+                    <div class="cards-container">
+                        <div class="card">
+                            <div class="card-header">
+                                <div>
+                                    <div class="card-title">Visitantes Totais</div>
+                                    <div class="card-value" id="total-visitors">0</div>
+                                    <div class="card-change" id="visitors-change">
+                                        <i class="fas fa-arrow-up"></i> 0% desde o último período
+                                    </div>
+                                </div>
+                                <div class="card-icon blue">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <div>
+                                    <div class="card-title">Visualizações de Páginas</div>
+                                    <div class="card-value" id="total-pageviews">0</div>
+                                    <div class="card-change" id="pageviews-change">
+                                        <i class="fas fa-arrow-up"></i> 0% desde o último período
+                                    </div>
+                                </div>
+                                <div class="card-icon green">
+                                    <i class="fas fa-eye"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <div>
+                                    <div class="card-title">Taxa de Rejeição</div>
+                                    <div class="card-value" id="bounce-rate">0%</div>
+                                    <div class="card-change" id="bounce-change">
+                                        <i class="fas fa-arrow-up"></i> 0% desde o último período
+                                    </div>
+                                </div>
+                                <div class="card-icon orange">
+                                    <i class="fas fa-sign-out-alt"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <div>
+                                    <div class="card-title">Tempo Médio</div>
+                                    <div class="card-value" id="avg-time">0m</div>
+                                    <div class="card-change" id="time-change">
+                                        <i class="fas fa-arrow-up"></i> 0% desde o último período
+                                    </div>
+                                </div>
+                                <div class="card-icon pink">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="form-group" style="margin-top: 30px;">
-                        <button type="submit" class="glass-btn animate-pulse">
-                            <i class="fas fa-save"></i> Salvar Post
+                    <div style="background: var(--glass-bg); border-radius: 16px; padding: 20px; margin-top: 30px; height: 400px; display: flex; align-items: center; justify-content: center; border: 1px solid var(--glass-border);">
+                        <p style="opacity: 0.7;">Gráfico de visitas seria exibido aqui</p>
+                    </div>
+                </div>
+
+                <div class="section" style="margin-top: 30px;">
+                    <div class="section-header">
+                        <h3 class="section-title">Posts Mais Populares</h3>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Post</th>
+                                    <th>Visualizações</th>
+                                    <th>Tempo Médio</th>
+                                    <th>Taxa de Rejeição</th>
+                                </tr>
+                            </thead>
+                            <tbody id="popular-posts">
+                                <!-- Posts populares serão carregados aqui -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="section" style="margin-top: 30px;">
+                    <div class="section-header">
+                        <h3 class="section-title">Dispositivos dos Visitantes</h3>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px;">
+                        <div style="background: var(--glass-bg); border-radius: 16px; padding: 20px; height: 300px; display: flex; align-items: center; justify-content: center; border: 1px solid var(--glass-border);">
+                            <p style="opacity: 0.7;">Gráfico de dispositivos seria exibido aqui</p>
+                        </div>
+                        <div style="background: var(--glass-bg); border-radius: 16px; padding: 20px; height: 300px; display: flex; align-items: center; justify-content: center; border: 1px solid var(--glass-border);">
+                            <p style="opacity: 0.7;">Gráfico de navegadores seria exibido aqui</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Seção Configurações -->
+            <div id="configurations-section" class="content-section" style="display: none;">
+                <div class="header">
+                    <h2>Configurações do Sistema</h2>
+                    <div class="user-menu">
+                        <span>Bem-vindo, <span id="username-display-settings">Usuário</span></span>
+                        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iI2ZmZiIgZD0iTTEyLDJBNyw3IDAgMCwwIDUsOUE3LDcgMCAwLDAgMTIsMTZBNyw3IDAgMCwwIDE5LDlBNyw3IDAgMCwwIDEyLDJNMTIsMTRBNSw1IDAgMCwxIDcsOUE1LDUgMCAwLDEgMTIsNEE1LDUgMCAwLDEgMTcsOUE1LDUgMCAwLDEgMTIsMTRNMTksMjBWMThBOCw4IDAgMCwwIDEyLDEwQTgsOCAwIDAsMCA1LDE4VjIwSDE5WiIgLz48L3N2Zz4=" alt="Usuário" class="user-avatar">
+                        <button class="logout-btn">
+                            <i class="fas fa-sign-out-alt"></i> Sair
                         </button>
                     </div>
-                </form>
+                </div>
+
+                <div class="section">
+                    <div class="section-header">
+                        <h3 class="section-title">Configurações Gerais</h3>
+                        <div class="section-actions">
+                            <button id="save-settings" class="glass-btn">
+                                <i class="fas fa-save"></i> Salvar Configurações
+                            </button>
+                        </div>
+                    </div>
+
+                    <form id="general-settings-form">
+                        <div class="settings-grid">
+                            <div class="setting-card">
+                                <h4 class="setting-title"><i class="fas fa-globe"></i> Configurações do Site</h4>
+                                <div class="form-group">
+                                    <label for="site-title" class="form-label">Título do Site</label>
+                                    <input type="text" id="site-title" class="form-control" value="Meu Site Incrível">
+                                </div>
+                                <div class="form-group">
+                                    <label for="site-description" class="form-label">Descrição do Site</label>
+                                    <textarea id="site-description" class="form-control" rows="3">Um site incrível com conteúdo fantástico</textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="site-logo" class="form-label">Logo do Site</label>
+                                    <input type="file" id="site-logo" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="setting-card">
+                                <h4 class="setting-title"><i class="fas fa-user"></i> Configurações de Perfil</h4>
+                                <div class="form-group">
+                                    <label for="user-name" class="form-label">Nome de Exibição</label>
+                                    <input type="text" id="user-name" class="form-control" value="Administrador">
+                                </div>
+                                <div class="form-group">
+                                    <label for="user-email" class="form-label">E-mail</label>
+                                    <input type="email" id="user-email" class="form-control" value="admin@example.com">
+                                </div>
+                                <div class="form-group">
+                                    <label for="user-avatar" class="form-label">Foto de Perfil</label>
+                                    <input type="file" id="user-avatar" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="setting-card">
+                                <h4 class="setting-title"><i class="fas fa-bell"></i> Notificações</h4>
+                                <div class="form-group" style="display: flex; justify-content: space-between; align-items: center;">
+                                    <label for="notify-comments" class="form-label">Novos Comentários</label>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="notify-comments" checked>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                                <div class="form-group" style="display: flex; justify-content: space-between; align-items: center;">
+                                    <label for="notify-posts" class="form-label">Novos Posts</label>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="notify-posts" checked>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                                <div class="form-group" style="display: flex; justify-content: space-between; align-items: center;">
+                                    <label for="notify-analytics" class="form-label">Relatórios de Análise</label>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="notify-analytics">
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="setting-card">
+                                <h4 class="setting-title"><i class="fas fa-lock"></i> Segurança</h4>
+                                <div class="form-group">
+                                    <label for="current-password" class="form-label">Senha Atual</label>
+                                    <input type="password" id="current-password" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label for="new-password" class="form-label">Nova Senha</label>
+                                    <input type="password" id="new-password" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label for="confirm-password" class="form-label">Confirmar Nova Senha</label>
+                                    <input type="password" id="confirm-password" class="form-control">
+                                </div>
+                                <button type="button" id="change-password" class="glass-btn" style="width: 100%;">
+                                    <i class="fas fa-key"></i> Alterar Senha
+                                </button>
+                            </div>
+
+                            <div class="setting-card">
+                                <h4 class="setting-title"><i class="fas fa-paint-brush"></i> Aparência</h4>
+                                <div class="form-group">
+                                    <label for="theme-color" class="form-label">Cor do Tema</label>
+                                    <input type="color" id="theme-color" class="form-control" value="#6c5ce7" style="height: 40px; padding: 5px;">
+                                </div>
+                                <div class="form-group">
+                                    <label for="dark-mode" class="form-label">Modo Escuro</label>
+                                    <select id="dark-mode" class="form-control">
+                                        <option value="auto">Automático</option>
+                                        <option value="light">Claro</option>
+                                        <option value="dark">Escuro</option>
+                                    </select>
+                                </div>
+                                <div class="form-group" style="display: flex; justify-content: space-between; align-items: center;">
+                                    <label for="animations" class="form-label">Animações</label>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="animations" checked>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="setting-card">
+                                <h4 class="setting-title"><i class="fas fa-database"></i> Backup e Restauração</h4>
+                                <div class="form-group">
+                                    <label class="form-label">Exportar Dados</label>
+                                    <button type="button" id="export-data" class="glass-btn" style="width: 100%;">
+                                        <i class="fas fa-file-export"></i> Exportar Tudo
+                                    </button>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Importar Dados</label>
+                                    <input type="file" id="import-data" class="form-control" accept=".json">
+                                </div>
+                                <div class="form-group">
+                                    <button type="button" id="reset-all" class="glass-btn" style="width: 100%; background: var(--danger-color);">
+                                        <i class="fas fa-trash"></i> Redefinir Tudo
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Seção Mídia -->
+            <div id="media-section" class="content-section" style="display: none;">
+                <div class="header">
+                    <h2>Biblioteca de Mídia</h2>
+                    <div class="user-menu">
+                        <span>Bem-vindo, <span id="username-display-media">Usuário</span></span>
+                        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iI2ZmZiIgZD0iTTEyLDJBNyw3IDAgMCwwIDUsOUE3LDcgMCAwLDAgMTIsMTZBNyw3IDAgMCwwIDE5LDlBNyw3IDAgMCwwIDEyLDJNMTIsMTRBNSw1IDAgMCwxIDcsOUE1LDUgMCAwLDEgMTIsNEE1LDUgMCAwLDEgMTcsOUE1LDUgMCAwLDEgMTIsMTRNMTksMjBWMThBOCw4IDAgMCwwIDEyLDEwQTgsOCAwIDAsMCA1LDE4VjIwSDE5WiIgLz48L3N2Zz4=" alt="Usuário" class="user-avatar">
+                        <button class="logout-btn">
+                            <i class="fas fa-sign-out-alt"></i> Sair
+                        </button>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-header">
+                        <h3 class="section-title">Todos os Itens de Mídia</h3>
+                        <div class="section-actions">
+                            <button id="upload-media-btn" class="glass-btn">
+                                <i class="fas fa-upload"></i> Enviar Mídia
+                            </button>
+                            <button id="create-folder-btn" class="glass-btn">
+                                <i class="fas fa-folder-plus"></i> Nova Pasta
+                            </button>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; gap: 20px; margin-bottom: 20px;">
+                        <div style="flex: 1; max-width: 250px;">
+                            <div style="background: var(--glass-bg); border-radius: 12px; padding: 15px; border: 1px solid var(--glass-border);">
+                                <h4 style="margin-bottom: 15px; font-size: 1.1rem;">Pastas</h4>
+                                <ul style="list-style: none; padding-left: 0;">
+                                    <li style="padding: 8px 0; border-bottom: 1px solid var(--glass-border);">
+                                        <a href="#" style="color: var(--light-color); text-decoration: none; display: flex; align-items: center; gap: 8px;">
+                                            <i class="fas fa-folder" style="color: var(--warning-color);"></i> Todas as Imagens
+                                        </a>
+                                    </li>
+                                    <li style="padding: 8px 0; border-bottom: 1px solid var(--glass-border);">
+                                        <a href="#" style="color: var(--light-color); text-decoration: none; display: flex; align-items: center; gap: 8px;">
+                                            <i class="fas fa-folder" style="color: var(--warning-color);"></i> Posts do Blog
+                                        </a>
+                                    </li>
+                                    <li style="padding: 8px 0; border-bottom: 1px solid var(--glass-border);">
+                                        <a href="#" style="color: var(--light-color); text-decoration: none; display: flex; align-items: center; gap: 8px;">
+                                            <i class="fas fa-folder" style="color: var(--warning-color);"></i> Portfólio
+                                        </a>
+                                    </li>
+                                    <li style="padding: 8px 0;">
+                                        <a href="#" style="color: var(--light-color); text-decoration: none; display: flex; align-items: center; gap: 8px;">
+                                            <i class="fas fa-folder" style="color: var(--warning-color);"></i> Outros
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div style="flex: 3;">
+                            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 15px;" id="media-grid">
+                                <!-- Itens de mídia serão carregados aqui -->
+                                <div style="background: var(--glass-bg); border-radius: 12px; padding: 15px; text-align: center; border: 1px solid var(--glass-border);">
+                                    <div style="width: 100%; height: 100px; background: rgba(255,255,255,0.1); border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-bottom: 10px;">
+                                        <i class="fas fa-image" style="font-size: 2rem; opacity: 0.5;"></i>
+                                    </div>
+                                    <p style="margin: 0; font-size: 0.9rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">imagem-exemplo.jpg</p>
+                                    <p style="margin: 0; font-size: 0.8rem; opacity: 0.7;">250 KB</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </main>
     </div>
 
     <!-- JavaScript Inline -->
     <script>
-        // Simulando a inclusão do Font Awesome
+        // Sistema de Autenticação e Gerenciamento de Estado
+        const AuthSystem = {
+            // URL de redirecionamento para login
+            loginUrl: 'https://ffalido.github.io/noeli.net/dashboard/login.html',
+            
+            // Verificar autenticação
+            checkAuth: function() {
+                const token = localStorage.getItem('authToken');
+                const expires = localStorage.getItem('authExpires');
+                
+                if (!token || !expires || new Date(expires) < new Date()) {
+                    this.logout();
+                    return false;
+                }
+                
+                return true;
+            },
+            
+            // Simular login
+            login: function(username, password) {
+                // Simular requisição AJAX
+                return new Promise((resolve, reject) => {
+                    setTimeout(() => {
+                        // Em um sistema real, isso seria verificado no servidor
+                        if (username && password) {
+                            // Gerar token simulado
+                            const token = btoa(`${username}:${Date.now()}`);
+                            const expires = new Date();
+                            expires.setHours(expires.getHours() + 2); // Expira em 2 horas
+                            
+                            localStorage.setItem('authToken', token);
+                            localStorage.setItem('authExpires', expires.toISOString());
+                            localStorage.setItem('username', username);
+                            
+                            resolve({ success: true, token });
+                        } else {
+                            reject({ success: false, message: 'Credenciais inválidas' });
+                        }
+                    }, 1000);
+                });
+            },
+            
+            // Logout
+            logout: function() {
+                localStorage.removeItem('authToken');
+                localStorage.removeItem('authExpires');
+                localStorage.removeItem('username');
+                window.location.href = this.loginUrl;
+            },
+            
+            // Obter informações do usuário
+            getUserInfo: function() {
+                return {
+                    username: localStorage.getItem('username') || 'Usuário'
+                };
+            }
+        };
+
+        // Sistema de Gerenciamento de Posts
+        const BlogSystem = {
+            // Carregar posts do localStorage
+            loadPosts: function() {
+                const posts = localStorage.getItem('blogPosts');
+                return posts ? JSON.parse(posts) : [
+                    {
+                        id: 1,
+                        title: 'Como Criar um Dashboard Incrível',
+                        author: 'Você',
+                        date: new Date().toISOString(),
+                        status: 'published',
+                        category: 'tecnologia',
+                        content: 'Este é um post de exemplo sobre como criar um dashboard incrível com HTML, CSS e JavaScript.',
+                        image: null,
+                        views: 125
+                    },
+                    {
+                        id: 2,
+                        title: 'Animações CSS que Impressionam',
+                        author: 'Você',
+                        date: new Date(Date.now() - 86400000).toISOString(),
+                        status: 'published',
+                        category: 'design',
+                        content: 'Aprenda a criar animações impressionantes usando apenas CSS.',
+                        image: null,
+                        views: 89
+                    }
+                ];
+            },
+            
+            // Salvar posts no localStorage
+            savePosts: function(posts) {
+                localStorage.setItem('blogPosts', JSON.stringify(posts));
+            },
+            
+            // Adicionar novo post
+            addPost: function(post) {
+                const posts = this.loadPosts();
+                const newId = posts.length > 0 ? Math.max(...posts.map(p => p.id)) + 1 : 1;
+                
+                const newPost = {
+                    id: newId,
+                    title: post.title,
+                    author: post.author,
+                    date: new Date().toISOString(),
+                    status: post.status,
+                    category: post.category,
+                    content: post.content,
+                    image: post.image,
+                    views: 0
+                };
+                
+                posts.unshift(newPost);
+                this.savePosts(posts);
+                return newPost;
+            },
+            
+            // Atualizar post
+            updatePost: function(id, updatedPost) {
+                const posts = this.loadPosts();
+                const index = posts.findIndex(p => p.id === id);
+                
+                if (index !== -1) {
+                    posts[index] = { ...posts[index], ...updatedPost };
+                    this.savePosts(posts);
+                    return true;
+                }
+                
+                return false;
+            },
+            
+            // Excluir post
+            deletePost: function(id) {
+                const posts = this.loadPosts();
+                const filteredPosts = posts.filter(p => p.id !== id);
+                this.savePosts(filteredPosts);
+                return posts.length !== filteredPosts.length;
+            }
+        };
+
+        // Sistema de Gerenciamento de Portfólio
+        const PortfolioSystem = {
+            // Carregar itens do localStorage
+            loadItems: function() {
+                const items = localStorage.getItem('portfolioItems');
+                return items ? JSON.parse(items) : [
+                    {
+                        id: 1,
+                        title: 'Website Corporativo',
+                        client: 'Empresa XYZ',
+                        type: 'website',
+                        date: new Date().toISOString(),
+                        description: 'Desenvolvimento de website corporativo responsivo.',
+                        images: [],
+                        url: 'https://empresaxyz.com',
+                        featured: true,
+                        technologies: 'HTML, CSS, JavaScript'
+                    }
+                ];
+            },
+            
+            // Salvar itens no localStorage
+            saveItems: function(items) {
+                localStorage.setItem('portfolioItems', JSON.stringify(items));
+            },
+            
+            // Adicionar novo item
+            addItem: function(item) {
+                const items = this.loadItems();
+                const newId = items.length > 0 ? Math.max(...items.map(i => i.id)) + 1 : 1;
+                
+                const newItem = {
+                    id: newId,
+                    title: item.title,
+                    client: item.client,
+                    type: item.type,
+                    date: item.date,
+                    description: item.description,
+                    images: item.images,
+                    url: item.url,
+                    featured: item.featured === '1',
+                    technologies: item.technologies
+                };
+                
+                items.unshift(newItem);
+                this.saveItems(items);
+                return newItem;
+            },
+            
+            // Atualizar item
+            updateItem: function(id, updatedItem) {
+                const items = this.loadItems();
+                const index = items.findIndex(i => i.id === id);
+                
+                if (index !== -1) {
+                    items[index] = { ...items[index], ...updatedItem };
+                    this.saveItems(items);
+                    return true;
+                }
+                
+                return false;
+            },
+            
+            // Excluir item
+            deleteItem: function(id) {
+                const items = this.loadItems();
+                const filteredItems = items.filter(i => i.id !== id);
+                this.saveItems(filteredItems);
+                return items.length !== filteredItems.length;
+            }
+        };
+
+        // Sistema de Configurações
+        const SettingsSystem = {
+            // Carregar configurações
+            loadSettings: function() {
+                const settings = localStorage.getItem('dashboardSettings');
+                return settings ? JSON.parse(settings) : {
+                    siteTitle: 'Meu Site Incrível',
+                    siteDescription: 'Um site incrível com conteúdo fantástico',
+                    userName: 'Administrador',
+                    userEmail: 'admin@example.com',
+                    notifyComments: true,
+                    notifyPosts: true,
+                    notifyAnalytics: false,
+                    themeColor: '#6c5ce7',
+                    darkMode: 'auto',
+                    animations: true
+                };
+            },
+            
+            // Salvar configurações
+            saveSettings: function(settings) {
+                localStorage.setItem('dashboardSettings', JSON.stringify(settings));
+            },
+            
+            // Exportar todos os dados
+            exportData: function() {
+                const data = {
+                    blogPosts: BlogSystem.loadPosts(),
+                    portfolioItems: PortfolioSystem.loadItems(),
+                    settings: this.loadSettings()
+                };
+                
+                return JSON.stringify(data, null, 2);
+            },
+            
+            // Importar dados
+            importData: function(jsonData) {
+                try {
+                    const data = JSON.parse(jsonData);
+                    
+                    if (data.blogPosts) BlogSystem.savePosts(data.blogPosts);
+                    if (data.portfolioItems) PortfolioSystem.saveItems(data.portfolioItems);
+                    if (data.settings) this.saveSettings(data.settings);
+                    
+                    return true;
+                } catch (e) {
+                    console.error('Erro ao importar dados:', e);
+                    return false;
+                }
+            }
+        };
+
+        // Gerenciador de Interface
+        const UIManager = {
+            // Inicializar a interface
+            init: function() {
+                // Verificar autenticação
+                if (!AuthSystem.checkAuth()) {
+                    document.getElementById('login-curtain').classList.remove('hidden');
+                    return;
+                }
+                
+                // Carregar dados do usuário
+                const userInfo = AuthSystem.getUserInfo();
+                document.querySelectorAll('#username-display, #username-display-blogs, #username-display-portfolio, #username-display-analytics, #username-display-settings, #username-display-media').forEach(el => {
+                    el.textContent = userInfo.username;
+                });
+                
+                // Configurar eventos
+                this.setupEvents();
+                
+                // Carregar dados iniciais
+                this.loadDashboardData();
+                this.loadBlogPosts();
+                this.loadPortfolioItems();
+                this.loadSettings();
+                
+                // Atualizar data e hora
+                this.updateDates();
+            },
+            
+            // Configurar eventos
+            setupEvents: function() {
+                // Logout
+                document.querySelectorAll('.logout-btn').forEach(btn => {
+                    btn.addEventListener('click', () => AuthSystem.logout());
+                });
+                
+                // Menu lateral
+                document.getElementById('sidebar-toggle').addEventListener('click', () => {
+                    document.getElementById('sidebar').classList.toggle('collapsed');
+                });
+                
+                // Navegação
+                document.querySelectorAll('.sidebar-nav li').forEach(item => {
+                    item.addEventListener('click', () => {
+                        document.querySelectorAll('.sidebar-nav li').forEach(i => i.classList.remove('active'));
+                        item.classList.add('active');
+                        
+                        const section = item.getAttribute('data-section');
+                        this.showSection(section);
+                    });
+                });
+                
+                // Formulário de login
+                document.getElementById('login-form').addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    const username = document.getElementById('login-username').value;
+                    const password = document.getElementById('login-password').value;
+                    
+                    this.showLoading('Entrando...');
+                    
+                    AuthSystem.login(username, password)
+                        .then(() => {
+                            window.location.reload();
+                        })
+                        .catch(error => {
+                            this.showMessage(error.message || 'Erro ao fazer login');
+                        });
+                });
+                
+                // Botão novo post
+                document.getElementById('new-post-btn')?.addEventListener('click', () => {
+                    this.showEditPostForm();
+                });
+                
+                // Botão salvar post
+                document.getElementById('save-post-btn')?.addEventListener('click', () => {
+                    this.savePost();
+                });
+                
+                // Botão cancelar edição
+                document.getElementById('cancel-edit-btn')?.addEventListener('click', () => {
+                    this.hideEditPostForm();
+                });
+                
+                // Botões de ação na tabela de posts
+                document.addEventListener('click', (e) => {
+                    if (e.target.closest('.action-btn.edit')) {
+                        const postId = parseInt(e.target.closest('tr').getAttribute('data-id'));
+                        this.showEditPostForm(postId);
+                    }
+                    
+                    if (e.target.closest('.action-btn.delete')) {
+                        const postId = parseInt(e.target.closest('tr').getAttribute('data-id'));
+                        this.deletePost(postId);
+                    }
+                });
+                
+                // Botão adicionar item ao portfólio
+                document.getElementById('add-portfolio-item')?.addEventListener('click', () => {
+                    this.showEditPortfolioForm();
+                });
+                
+                // Botão salvar item do portfólio
+                document.getElementById('save-portfolio-btn')?.addEventListener('click', () => {
+                    this.savePortfolioItem();
+                });
+                
+                // Botão cancelar edição do portfólio
+                document.getElementById('cancel-portfolio-btn')?.addEventListener('click', () => {
+                    this.hideEditPortfolioForm();
+                });
+                
+                // Botões de ação na tabela do portfólio
+                document.addEventListener('click', (e) => {
+                    if (e.target.closest('.portfolio-edit-btn')) {
+                        const itemId = parseInt(e.target.closest('tr').getAttribute('data-id'));
+                        this.showEditPortfolioForm(itemId);
+                    }
+                    
+                    if (e.target.closest('.portfolio-delete-btn')) {
+                        const itemId = parseInt(e.target.closest('tr').getAttribute('data-id'));
+                        this.deletePortfolioItem(itemId);
+                    }
+                });
+                
+                // Botão salvar configurações
+                document.getElementById('save-settings')?.addEventListener('click', () => {
+                    this.saveSettings();
+                });
+                
+                // Botão alterar senha
+                document.getElementById('change-password')?.addEventListener('click', () => {
+                    this.changePassword();
+                });
+                
+                // Botão exportar dados
+                document.getElementById('export-data')?.addEventListener('click', () => {
+                    this.exportData();
+                });
+                
+                // Importar dados
+                document.getElementById('import-data')?.addEventListener('change', (e) => {
+                    const file = e.target.files[0];
+                    if (!file) return;
+                    
+                    const reader = new FileReader();
+                    reader.onload = (event) => {
+                        if (SettingsSystem.importData(event.target.result)) {
+                            this.showMessage('Dados importados com sucesso!', 'success');
+                            window.location.reload();
+                        } else {
+                            this.showMessage('Erro ao importar dados', 'error');
+                        }
+                    };
+                    reader.readAsText(file);
+                });
+                
+                // Botão redefinir tudo
+                document.getElementById('reset-all')?.addEventListener('click', () => {
+                    if (confirm('Tem certeza que deseja redefinir TODOS os dados? Esta ação não pode ser desfeita!')) {
+                        localStorage.clear();
+                        this.showMessage('Todos os dados foram resetados', 'success');
+                        setTimeout(() => window.location.reload(), 1500);
+                    }
+                });
+            },
+            
+            // Mostrar seção específica
+            showSection: function(sectionId) {
+                document.querySelectorAll('.content-section').forEach(section => {
+                    section.style.display = 'none';
+                });
+                
+                document.getElementById(`${sectionId}-section`).style.display = 'block';
+                
+                // Atualizar dados da seção se necessário
+                switch(sectionId) {
+                    case 'blogs':
+                        this.loadBlogPosts();
+                        break;
+                    case 'portfolio':
+                        this.loadPortfolioItems();
+                        break;
+                    case 'analytics':
+                        this.loadAnalyticsData();
+                        break;
+                    case 'configurations':
+                        this.loadSettings();
+                        break;
+                }
+            },
+            
+            // Atualizar datas
+            updateDates: function() {
+                const now = new Date();
+                const options = { 
+                    day: '2-digit', 
+                    month: '2-digit', 
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                };
+                
+                // Formatar data para o Brasil
+                const formattedDate = now.toLocaleDateString('pt-BR', options);
+                
+                // Atualizar datas na tabela
+                const posts = BlogSystem.loadPosts();
+                const postsTable = document.getElementById('posts-table-body');
+                
+                if (postsTable) {
+                    postsTable.innerHTML = posts.slice(0, 4).map(post => {
+                        const postDate = new Date(post.date);
+                        return `
+                            <tr data-id="${post.id}">
+                                <td>${post.title}</td>
+                                <td>${post.author}</td>
+                                <td>${postDate.toLocaleDateString('pt-BR', options)}</td>
+                                <td><span class="status-badge ${post.status}">${
+                                    post.status === 'published' ? 'Publicado' : 
+                                    post.status === 'draft' ? 'Rascunho' : 'Revisão'
+                                }</span></td>
+                                <td>
+                                    <button class="action-btn edit"><i class="fas fa-edit"></i></button>
+                                    <button class="action-btn delete"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                        `;
+                    }).join('');
+                }
+                
+                // Atualizar data no formulário
+                const postDate = document.getElementById('post-date');
+                if (postDate) {
+                    postDate.value = formattedDate;
+                }
+            },
+            
+            // Carregar dados do dashboard
+            loadDashboardData: function() {
+                const posts = BlogSystem.loadPosts();
+                const portfolioItems = PortfolioSystem.loadItems();
+                
+                document.getElementById('total-posts').textContent = posts.length;
+                document.getElementById('total-portfolio').textContent = portfolioItems.length;
+            },
+            
+            // Carregar posts do blog
+            loadBlogPosts: function() {
+                const posts = BlogSystem.loadPosts();
+                const tableBody = document.getElementById('all-posts-body');
+                
+                if (tableBody) {
+                    tableBody.innerHTML = posts.map(post => {
+                        const postDate = new Date(post.date);
+                        return `
+                            <tr data-id="${post.id}">
+                                <td>${post.title}</td>
+                                <td>${post.category}</td>
+                                <td>${post.views}</td>
+                                <td>${postDate.toLocaleDateString('pt-BR')}</td>
+                                <td><span class="status-badge ${post.status}">${
+                                    post.status === 'published' ? 'Publicado' : 
+                                    post.status === 'draft' ? 'Rascunho' : 'Revisão'
+                                }</span></td>
+                                <td>
+                                    <button class="action-btn edit"><i class="fas fa-edit"></i></button>
+                                    <button class="action-btn delete"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                        `;
+                    }).join('');
+                }
+            },
+            
+            // Mostrar formulário de edição de post
+            showEditPostForm: function(postId = null) {
+                const editSection = document.getElementById('edit-post-section');
+                const form = document.getElementById('edit-post-form');
+                
+                if (postId) {
+                    // Modo edição
+                    const post = BlogSystem.loadPosts().find(p => p.id === postId);
+                    if (post) {
+                        form.setAttribute('data-id', post.id);
+                        document.getElementById('edit-post-title').value = post.title;
+                        document.getElementById('edit-post-category').value = post.category;
+                        document.getElementById('edit-post-content').value = post.content;
+                        document.getElementById('edit-post-status').value = post.status;
+                        
+                        const postDate = new Date(post.date);
+                        document.getElementById('edit-post-date').value = postDate.toISOString().slice(0, 16);
+                        
+                        // Limpar preview de imagem
+                        document.getElementById('current-image-preview').innerHTML = '';
+                        
+                        editSection.style.display = 'block';
+                        document.getElementById('blogs-section').scrollTo({ top: 0, behavior: 'smooth' });
+                    }
+                } else {
+                    // Modo novo post
+                    form.removeAttribute('data-id');
+                    form.reset();
+                    document.getElementById('edit-post-date').value = new Date().toISOString().slice(0, 16);
+                    document.getElementById('edit-post-status').value = 'draft';
+                    
+                    // Limpar preview de imagem
+                    document.getElementById('current-image-preview').innerHTML = '';
+                    
+                    editSection.style.display = 'block';
+                    document.getElementById('blogs-section').scrollTo({ top: 0, behavior: 'smooth' });
+                }
+            },
+            
+            // Ocultar formulário de edição de post
+            hideEditPostForm: function() {
+                document.getElementById('edit-post-section').style.display = 'none';
+            },
+            
+            // Salvar post
+            savePost: function() {
+                const form = document.getElementById('edit-post-form');
+                const postId = form.getAttribute('data-id');
+                const postData = {
+                    title: document.getElementById('edit-post-title').value,
+                    author: AuthSystem.getUserInfo().username,
+                    category: document.getElementById('edit-post-category').value,
+                    content: document.getElementById('edit-post-content').value,
+                    status: document.getElementById('edit-post-status').value,
+                    date: document.getElementById('edit-post-date').value
+                };
+                
+                if (!postData.title || !postData.content) {
+                    this.showMessage('Preencha o título e o conteúdo do post', 'error');
+                    return;
+                }
+                
+                if (postId) {
+                    // Editar post existente
+                    if (BlogSystem.updatePost(parseInt(postId), postData)) {
+                        this.showMessage('Post atualizado com sucesso!', 'success');
+                        this.loadBlogPosts();
+                        this.hideEditPostForm();
+                    } else {
+                        this.showMessage('Erro ao atualizar post', 'error');
+                    }
+                } else {
+                    // Novo post
+                    BlogSystem.addPost(postData);
+                    this.showMessage('Post criado com sucesso!', 'success');
+                    this.loadBlogPosts();
+                    this.loadDashboardData();
+                    this.hideEditPostForm();
+                }
+            },
+            
+            // Excluir post
+            deletePost: function(postId) {
+                if (confirm('Tem certeza que deseja excluir este post? Esta ação não pode ser desfeita.')) {
+                    if (BlogSystem.deletePost(postId)) {
+                        this.showMessage('Post excluído com sucesso!', 'success');
+                        this.loadBlogPosts();
+                        this.loadDashboardData();
+                    } else {
+                        this.showMessage('Erro ao excluir post', 'error');
+                    }
+                }
+            },
+            
+            // Carregar itens do portfólio
+            loadPortfolioItems: function() {
+                const items = PortfolioSystem.loadItems();
+                const tableBody = document.getElementById('portfolio-table-body');
+                
+                if (tableBody) {
+                    tableBody.innerHTML = items.map(item => {
+                        const itemDate = new Date(item.date);
+                        return `
+                            <tr data-id="${item.id}">
+                                <td>${item.title}</td>
+                                <td>${item.type === 'website' ? 'Website' : 
+                                    item.type === 'app' ? 'Aplicativo' : 
+                                    item.type === 'design' ? 'Design' : 'Outro'}</td>
+                                <td>${itemDate.toLocaleDateString('pt-BR')}</td>
+                                <td><span class="status-badge ${item.featured ? 'published' : 'draft'}">${
+                                    item.featured ? 'Destaque' : 'Normal'
+                                }</span></td>
+                                <td>
+                                    <button class="action-btn edit portfolio-edit-btn"><i class="fas fa-edit"></i></button>
+                                    <button class="action-btn delete portfolio-delete-btn"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                        `;
+                    }).join('');
+                }
+            },
+            
+            // Mostrar formulário de edição do portfólio
+            showEditPortfolioForm: function(itemId = null) {
+                const editSection = document.getElementById('edit-portfolio-section');
+                const form = document.getElementById('portfolio-form');
+                
+                if (itemId) {
+                    // Modo edição
+                    const item = PortfolioSystem.loadItems().find(i => i.id === itemId);
+                    if (item) {
+                        form.setAttribute('data-id', item.id);
+                        document.getElementById('portfolio-title').value = item.title;
+                        document.getElementById('portfolio-client').value = item.client || '';
+                        document.getElementById('portfolio-type').value = item.type;
+                        
+                        const itemDate = new Date(item.date);
+                        document.getElementById('portfolio-date').value = itemDate.toISOString().slice(0, 10);
+                        
+                        document.getElementById('portfolio-description').value = item.description;
+                        document.getElementById('portfolio-url').value = item.url || '';
+                        document.getElementById('portfolio-featured').value = item.featured ? '1' : '0';
+                        document.getElementById('portfolio-technologies').value = item.technologies || '';
+                        
+                        // Limpar preview de imagens
+                        document.getElementById('portfolio-images-preview').innerHTML = '';
+                        
+                        editSection.style.display = 'block';
+                        document.getElementById('portfolio-section').scrollTo({ top: 0, behavior: 'smooth' });
+                    }
+                } else {
+                    // Modo novo item
+                    form.removeAttribute('data-id');
+                    form.reset();
+                    document.getElementById('portfolio-date').value = new Date().toISOString().slice(0, 10);
+                    document.getElementById('portfolio-featured').value = '0';
+                    
+                    // Limpar preview de imagens
+                    document.getElementById('portfolio-images-preview').innerHTML = '';
+                    
+                    editSection.style.display = 'block';
+                    document.getElementById('portfolio-section').scrollTo({ top: 0, behavior: 'smooth' });
+                }
+            },
+            
+            // Ocultar formulário de edição do portfólio
+            hideEditPortfolioForm: function() {
+                document.getElementById('edit-portfolio-section').style.display = 'none';
+            },
+            
+            // Salvar item do portfólio
+            savePortfolioItem: function() {
+                const form = document.getElementById('portfolio-form');
+                const itemId = form.getAttribute('data-id');
+                const itemData = {
+                    title: document.getElementById('portfolio-title').value,
+                    client: document.getElementById('portfolio-client').value,
+                    type: document.getElementById('portfolio-type').value,
+                    date: document.getElementById('portfolio-date').value,
+                    description: document.getElementById('portfolio-description').value,
+                    url: document.getElementById('portfolio-url').value,
+                    featured: document.getElementById('portfolio-featured').value,
+                    technologies: document.getElementById('portfolio-technologies').value
+                };
+                
+                if (!itemData.title || !itemData.description) {
+                    this.showMessage('Preencha o título e a descrição do projeto', 'error');
+                    return;
+                }
+                
+                if (itemId) {
+                    // Editar item existente
+                    if (PortfolioSystem.updateItem(parseInt(itemId), itemData)) {
+                        this.showMessage('Item do portfólio atualizado com sucesso!', 'success');
+                        this.loadPortfolioItems();
+                        this.hideEditPortfolioForm();
+                    } else {
+                        this.showMessage('Erro ao atualizar item do portfólio', 'error');
+                    }
+                } else {
+                    // Novo item
+                    PortfolioSystem.addItem(itemData);
+                    this.showMessage('Item do portfólio adicionado com sucesso!', 'success');
+                    this.loadPortfolioItems();
+                    this.loadDashboardData();
+                    this.hideEditPortfolioForm();
+                }
+            },
+            
+            // Excluir item do portfólio
+            deletePortfolioItem: function(itemId) {
+                if (confirm('Tem certeza que deseja excluir este item do portfólio? Esta ação não pode ser desfeita.')) {
+                    if (PortfolioSystem.deleteItem(itemId)) {
+                        this.showMessage('Item do portfólio excluído com sucesso!', 'success');
+                        this.loadPortfolioItems();
+                        this.loadDashboardData();
+                    } else {
+                        this.showMessage('Erro ao excluir item do portfólio', 'error');
+                    }
+                }
+            },
+            
+            // Carregar dados de análise
+            loadAnalyticsData: function() {
+                // Simular dados de análise
+                document.getElementById('total-visitors').textContent = '1,248';
+                document.getElementById('total-pageviews').textContent = '3,542';
+                document.getElementById('bounce-rate').textContent = '32%';
+                document.getElementById('avg-time').textContent = '2m 45s';
+                
+                document.getElementById('visitors-change').innerHTML = '<i class="fas fa-arrow-up"></i> 12% desde o último período';
+                document.getElementById('pageviews-change').innerHTML = '<i class="fas fa-arrow-up"></i> 8% desde o último período';
+                document.getElementById('bounce-change').innerHTML = '<i class="fas fa-arrow-down"></i> 5% desde o último período';
+                document.getElementById('time-change').innerHTML = '<i class="fas fa-arrow-up"></i> 10% desde o último período';
+                
+                // Simular posts populares
+                const posts = BlogSystem.loadPosts()
+                    .sort((a, b) => b.views - a.views)
+                    .slice(0, 5);
+                
+                const popularPosts = document.getElementById('popular-posts');
+                if (popularPosts) {
+                    popularPosts.innerHTML = posts.map(post => `
+                        <tr>
+                            <td>${post.title}</td>
+                            <td>${post.views}</td>
+                            <td>2m 30s</td>
+                            <td>28%</td>
+                        </tr>
+                    `).join('');
+                }
+            },
+            
+            // Carregar configurações
+            loadSettings: function() {
+                const settings = SettingsSystem.loadSettings();
+                
+                document.getElementById('site-title').value = settings.siteTitle;
+                document.getElementById('site-description').value = settings.siteDescription;
+                document.getElementById('user-name').value = settings.userName;
+                document.getElementById('user-email').value = settings.userEmail;
+                document.getElementById('notify-comments').checked = settings.notifyComments;
+                document.getElementById('notify-posts').checked = settings.notifyPosts;
+                document.getElementById('notify-analytics').checked = settings.notifyAnalytics;
+                document.getElementById('theme-color').value = settings.themeColor;
+                document.getElementById('dark-mode').value = settings.darkMode;
+                document.getElementById('animations').checked = settings.animations;
+            },
+            
+            // Salvar configurações
+            saveSettings: function() {
+                const settings = {
+                    siteTitle: document.getElementById('site-title').value,
+                    siteDescription: document.getElementById('site-description').value,
+                    userName: document.getElementById('user-name').value,
+                    userEmail: document.getElementById('user-email').value,
+                    notifyComments: document.getElementById('notify-comments').checked,
+                    notifyPosts: document.getElementById('notify-posts').checked,
+                    notifyAnalytics: document.getElementById('notify-analytics').checked,
+                    themeColor: document.getElementById('theme-color').value,
+                    darkMode: document.getElementById('dark-mode').value,
+                    animations: document.getElementById('animations').checked
+                };
+                
+                SettingsSystem.saveSettings(settings);
+                this.showMessage('Configurações salvas com sucesso!', 'success');
+                
+                // Atualizar nome de exibição
+                document.querySelectorAll('#username-display, #username-display-blogs, #username-display-portfolio, #username-display-analytics, #username-display-settings, #username-display-media').forEach(el => {
+                    el.textContent = settings.userName;
+                });
+            },
+            
+            // Alterar senha
+            changePassword: function() {
+                const current = document.getElementById('current-password').value;
+                const newPass = document.getElementById('new-password').value;
+                const confirmPass = document.getElementById('confirm-password').value;
+                
+                if (!current || !newPass || !confirmPass) {
+                    this.showMessage('Preencha todos os campos de senha', 'error');
+                    return;
+                }
+                
+                if (newPass !== confirmPass) {
+                    this.showMessage('As novas senhas não coincidem', 'error');
+                    return;
+                }
+                
+                // Em um sistema real, aqui seria feita uma verificação no servidor
+                this.showMessage('Senha alterada com sucesso!', 'success');
+                document.getElementById('current-password').value = '';
+                document.getElementById('new-password').value = '';
+                document.getElementById('confirm-password').value = '';
+            },
+            
+            // Exportar dados
+            exportData: function() {
+                const data = SettingsSystem.exportData();
+                const blob = new Blob([data], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `dashboard-backup-${new Date().toISOString().slice(0, 10)}.json`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                
+                this.showMessage('Dados exportados com sucesso!', 'success');
+            },
+            
+            // Mostrar mensagem
+            showMessage: function(message, type = 'info') {
+                const messageEl = document.getElementById('login-message');
+                if (!messageEl) return;
+                
+                messageEl.textContent = message;
+                messageEl.style.color = type === 'error' ? 'var(--danger-color)' : 
+                                       type === 'success' ? 'var(--success-color)' : 'var(--accent-color)';
+                
+                setTimeout(() => {
+                    messageEl.textContent = '';
+                }, 5000);
+            },
+            
+            // Mostrar carregamento
+            showLoading: function(message) {
+                const loginBtn = document.getElementById('login-btn');
+                if (loginBtn) {
+                    loginBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${message}`;
+                    loginBtn.disabled = true;
+                }
+            },
+            
+            // Resetar botão de login
+            resetLoginButton: function() {
+                const loginBtn = document.getElementById('login-btn');
+                if (loginBtn) {
+                    loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Entrar';
+                    loginBtn.disabled = false;
+                }
+            }
+        };
+
+        // Inicializar quando o DOM estiver carregado
         document.addEventListener('DOMContentLoaded', function() {
             // Verificar se o Font Awesome já está carregado
             if (!document.querySelector('link[href*="font-awesome"]')) {
@@ -889,245 +2389,24 @@
                 document.head.appendChild(fontLink);
             }
             
-            // Sistema de Login Simulado
-            const loginCurtain = document.getElementById('login-curtain');
-            const loginBtn = document.getElementById('login-btn');
-            const logoutBtn = document.getElementById('logout-btn');
+            // Inicializar a interface
+            UIManager.init();
             
-            // Verificar se está logado (simulação)
-            const isLoggedIn = localStorage.getItem('dashboardLoggedIn') === 'true';
+            // Configurar timeout de inatividade (30 minutos)
+            let inactivityTimer;
+            const resetTimer = () => {
+                clearTimeout(inactivityTimer);
+                inactivityTimer = setTimeout(() => {
+                    AuthSystem.logout();
+                }, 30 * 60 * 1000); // 30 minutos
+            };
             
-            if (isLoggedIn) {
-                loginCurtain.classList.add('hidden');
-            } else {
-                loginCurtain.classList.remove('hidden');
-            }
-            
-            // Botão de Login
-            loginBtn.addEventListener('click', function() {
-                // Simular login
-                localStorage.setItem('dashboardLoggedIn', 'true');
-                loginCurtain.classList.add('hidden');
-                
-                // Animação de confirmação
-                this.innerHTML = '<i class="fas fa-check"></i> Login realizado!';
-                this.style.backgroundColor = 'var(--success-color)';
-                
-                setTimeout(() => {
-                    this.innerHTML = '<i class="fas fa-sign-in-alt"></i> Fazer Login';
-                    this.style.backgroundColor = '';
-                }, 2000);
+            // Resetar timer em eventos de interação
+            ['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart'].forEach(event => {
+                window.addEventListener(event, resetTimer);
             });
             
-            // Botão de Logout
-            logoutBtn.addEventListener('click', function() {
-                localStorage.removeItem('dashboardLoggedIn');
-                loginCurtain.classList.remove('hidden');
-                
-                // Animação de confirmação
-                this.innerHTML = '<i class="fas fa-check"></i> Saindo...';
-                
-                setTimeout(() => {
-                    this.innerHTML = '<i class="fas fa-sign-out-alt"></i> Sair';
-                }, 2000);
-            });
-            
-            // Menu Lateral
-            const sidebar = document.getElementById('sidebar');
-            const sidebarToggle = document.getElementById('sidebar-toggle');
-            
-            sidebarToggle.addEventListener('click', function() {
-                sidebar.classList.toggle('collapsed');
-                
-                // Mudar ícone
-                const icon = this.querySelector('i');
-                if (sidebar.classList.contains('collapsed')) {
-                    icon.classList.remove('fa-bars');
-                    icon.classList.add('fa-times');
-                } else {
-                    icon.classList.remove('fa-times');
-                    icon.classList.add('fa-bars');
-                }
-            });
-            
-            // Navegação do Menu
-            const navItems = document.querySelectorAll('.sidebar-nav li');
-            
-            navItems.forEach(item => {
-                item.addEventListener('click', function() {
-                    navItems.forEach(i => i.classList.remove('active'));
-                    this.classList.add('active');
-                    
-                    // Simular troca de conteúdo
-                    const sectionId = this.querySelector('a').getAttribute('href').substring(1);
-                    console.log(`Navegando para: ${sectionId}`);
-                    
-                    // Adicionar animação ao conteúdo
-                    const mainContent = document.querySelector('.main-content');
-                    mainContent.style.animation = 'none';
-                    void mainContent.offsetWidth; // Trigger reflow
-                    mainContent.style.animation = 'fadeIn 0.6s ease forwards';
-                });
-            });
-            
-            // Atualizar datas
-            function updateDates() {
-                const now = new Date();
-                const options = { 
-                    day: '2-digit', 
-                    month: '2-digit', 
-                    year: 'numeric',
-                    hour: '2-digit',
-                    minute: '2-digit'
-                };
-                
-                // Formatar data para o Brasil
-                const formattedDate = now.toLocaleDateString('pt-BR', options);
-                
-                // Atualizar datas na tabela
-                for (let i = 1; i <= 4; i++) {
-                    const dateElement = document.getElementById(`current-date-${i}`);
-                    if (dateElement) {
-                        // Datas diferentes para cada linha (simulação)
-                        const modDate = new Date(now);
-                        modDate.setDate(modDate.getDate() - (i * 2));
-                        dateElement.textContent = modDate.toLocaleDateString('pt-BR', options);
-                    }
-                }
-                
-                // Atualizar data no formulário
-                const postDate = document.getElementById('post-date');
-                if (postDate) {
-                    postDate.value = formattedDate;
-                }
-            }
-            
-            updateDates();
-            
-            // Formulário de Novo Post
-            const newPostForm = document.getElementById('new-post-form');
-            
-            if (newPostForm) {
-                newPostForm.addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    
-                    // Pegar valores do formulário
-                    const title = document.getElementById('post-title').value;
-                    const content = document.getElementById('post-content').value;
-                    const status = document.getElementById('post-status').value;
-                    const date = document.getElementById('post-date').value;
-                    
-                    // Validar
-                    if (!title || !content) {
-                        alert('Preencha o título e o conteúdo do post!');
-                        return;
-                    }
-                    
-                    // Simular envio
-                    const submitBtn = this.querySelector('button[type="submit"]');
-                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Publicando...';
-                    submitBtn.disabled = true;
-                    
-                    setTimeout(() => {
-                        // Simular sucesso
-                        submitBtn.innerHTML = '<i class="fas fa-check"></i> Post publicado!';
-                        submitBtn.style.backgroundColor = 'var(--success-color)';
-                        
-                        // Resetar formulário
-                        setTimeout(() => {
-                            this.reset();
-                            updateDates();
-                            submitBtn.innerHTML = '<i class="fas fa-save"></i> Salvar Post';
-                            submitBtn.style.backgroundColor = '';
-                            submitBtn.disabled = false;
-                            
-                            // Simular atualização da tabela
-                            alert(`Post "${title}" adicionado com sucesso!`);
-                        }, 1500);
-                    }, 2000);
-                });
-            }
-            
-            // Efeitos de hover nos cards
-            const cards = document.querySelectorAll('.card');
-            
-            cards.forEach(card => {
-                card.addEventListener('mousemove', function(e) {
-                    const rect = this.getBoundingClientRect();
-                    const x = e.clientX - rect.left;
-                    const y = e.clientY - rect.top;
-                    
-                    this.style.setProperty('--mouse-x', `${x}px`);
-                    this.style.setProperty('--mouse-y', `${y}px`);
-                });
-            });
-            
-            // Efeito de digitação no título
-            const dashboardTitle = document.querySelector('.header h2');
-            if (dashboardTitle) {
-                const originalText = dashboardTitle.textContent;
-                dashboardTitle.textContent = '';
-                
-                let i = 0;
-                const typingEffect = setInterval(() => {
-                    if (i < originalText.length) {
-                        dashboardTitle.textContent += originalText.charAt(i);
-                        i++;
-                    } else {
-                        clearInterval(typingEffect);
-                    }
-                }, 100);
-            }
-            
-            // Botões de ação na tabela
-            const editButtons = document.querySelectorAll('.action-btn.edit');
-            const deleteButtons = document.querySelectorAll('.action-btn.delete');
-            
-            editButtons.forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const row = this.closest('tr');
-                    const title = row.querySelector('td:first-child').textContent;
-                    alert(`Editando: ${title}`);
-                });
-            });
-            
-            deleteButtons.forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const row = this.closest('tr');
-                    const title = row.querySelector('td:first-child').textContent;
-                    
-                    if (confirm(`Tem certeza que deseja excluir "${title}"?`)) {
-                        row.style.animation = 'fadeOut 0.6s ease forwards';
-                        setTimeout(() => {
-                            row.remove();
-                        }, 600);
-                    }
-                });
-            });
-            
-            // Adicionar estilo dinâmico ao glass
-            document.documentElement.style.setProperty('--glass-bg', 'rgba(255, 255, 255, 0.15)');
-            document.documentElement.style.setProperty('--glass-border', 'rgba(255, 255, 255, 0.18)');
-            document.documentElement.style.setProperty('--glass-shadow', '0 8px 32px 0 rgba(31, 38, 135, 0.37)');
-            
-            // Efeito de parallax no background
-            document.body.addEventListener('mousemove', function(e) {
-                const x = e.clientX / window.innerWidth;
-                const y = e.clientY / window.innerHeight;
-                
-                this.style.backgroundPosition = `${x * 100}% ${y * 100}%`;
-            });
-            
-            // Atualizar a cada minuto (simulação de dados dinâmicos)
-            setInterval(() => {
-                // Atualizar contadores nos cards
-                const visitorCount = document.querySelector('.cards-container .card:first-child .card-value');
-                if (visitorCount) {
-                    const current = parseInt(visitorCount.textContent.replace(/,/g, ''));
-                    const newCount = current + Math.floor(Math.random() * 10);
-                    visitorCount.textContent = newCount.toLocaleString();
-                }
-            }, 60000);
+            resetTimer();
         });
     </script>
 </body>
