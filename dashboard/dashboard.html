@@ -1,782 +1,140 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <title>Dashboard Noeli</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashboard Tudão Real</title>
   <style>
     body {
-      background: #0a0a0a;
-      color: white;
-      font-family: 'Segoe UI', sans-serif;
       margin: 0;
-      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #0e0e0e;
+      color: white;
+      overflow-x: hidden;
     }
-    .login-overlay {
+    header {
+      background: linear-gradient(90deg, #6a0dad, #9b59b6);
+      padding: 1rem 2rem;
+      text-align: center;
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+    .sidebar {
       position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0, 0, 0, 0.85);
-      backdrop-filter: blur(10px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      z-index: 9999;
+      top: 0; left: 0;
+      height: 100%;
+      width: 220px;
+      background: #1a1a1a;
+      padding: 1rem;
+      box-shadow: 2px 0 10px rgba(0,0,0,0.5);
     }
-    .glass-button {
-      background: rgba(255,255,255,0.1);
-      color: #a855f7;
-      border: 1px solid #a855f7;
-      padding: 12px 24px;
-      font-size: 16px;
+    .sidebar a {
+      display: block;
+      color: white;
+      text-decoration: none;
+      margin: 1rem 0;
+      transition: 0.3s;
+    }
+    .sidebar a:hover {
+      color: #ff6bff;
+    }
+    main {
+      margin-left: 240px;
+      padding: 2rem;
+    }
+    section {
+      margin-bottom: 3rem;
+      background: #1c1c1c;
+      padding: 1rem 2rem;
       border-radius: 12px;
-      cursor: pointer;
-      transition: all 0.3s ease;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+      animation: fadeIn 1s ease;
     }
-    .glass-button:hover {
-      background: rgba(168, 85, 247, 0.2);
+    section h2 {
+      color: #ff6bff;
+    }
+    .input-group {
+      margin: 1rem 0;
+    }
+    .input-group label {
+      display: block;
+      margin-bottom: .5rem;
+    }
+    .input-group input, .input-group textarea {
+      width: 100%;
+      padding: .6rem;
+      border-radius: 8px;
+      border: none;
+      background: #2e2e2e;
+      color: white;
+    }
+    .input-group input:focus, .input-group textarea:focus {
+      outline: 2px solid #9b59b6;
+    }
+    button {
+      padding: .6rem 1.2rem;
+      background: linear-gradient(45deg, #9b59b6, #ff6bff);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    button:hover {
       transform: scale(1.05);
     }
-    .section {
-      padding: 40px;
-      border-bottom: 1px solid #333;
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
   </style>
+  <script>
+    if (localStorage.getItem("isLoggedIn") !== "true") {
+      document.write(`
+        <div style="
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            z-index: 99999;
+            text-align: center;
+            padding: 20px;">
+          Você não está logado. Redirecionando...
+        </div>
+      `);
+      setTimeout(() => {
+        window.location.href = "https://ffalido.github.io/noeli.net/login.html";
+      }, 1000);
+    }
+  </script>
 </head>
 <body>
-
-<div id="loginOverlay" class="login-overlay" style="display: none;">
-  <h2>Ops... Infelizmente Você não está logado</h2>
-  <button onclick="window.location.href='ffalido.github.io/noeli.net/dashboard/login.html'" class="glass-button">
-    Clique Aqui para fazer Login
-  </button>
-</div>
-
-<div id="dashboardContent" style="display: none;">
-  <h1 style="text-align:center;">🎛️ Dashboard Noeli</h1>
-
-  <div class="section" id="section-1">
-    <h2>Seção 1</h2>
-    <label for="input-1">Configuração 1:</label>
-    <input type="text" id="input-1" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(1)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-2">
-    <h2>Seção 2</h2>
-    <label for="input-2">Configuração 2:</label>
-    <input type="text" id="input-2" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(2)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-3">
-    <h2>Seção 3</h2>
-    <label for="input-3">Configuração 3:</label>
-    <input type="text" id="input-3" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(3)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-4">
-    <h2>Seção 4</h2>
-    <label for="input-4">Configuração 4:</label>
-    <input type="text" id="input-4" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(4)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-5">
-    <h2>Seção 5</h2>
-    <label for="input-5">Configuração 5:</label>
-    <input type="text" id="input-5" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(5)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-6">
-    <h2>Seção 6</h2>
-    <label for="input-6">Configuração 6:</label>
-    <input type="text" id="input-6" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(6)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-7">
-    <h2>Seção 7</h2>
-    <label for="input-7">Configuração 7:</label>
-    <input type="text" id="input-7" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(7)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-8">
-    <h2>Seção 8</h2>
-    <label for="input-8">Configuração 8:</label>
-    <input type="text" id="input-8" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(8)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-9">
-    <h2>Seção 9</h2>
-    <label for="input-9">Configuração 9:</label>
-    <input type="text" id="input-9" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(9)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-10">
-    <h2>Seção 10</h2>
-    <label for="input-10">Configuração 10:</label>
-    <input type="text" id="input-10" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(10)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-11">
-    <h2>Seção 11</h2>
-    <label for="input-11">Configuração 11:</label>
-    <input type="text" id="input-11" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(11)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-12">
-    <h2>Seção 12</h2>
-    <label for="input-12">Configuração 12:</label>
-    <input type="text" id="input-12" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(12)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-13">
-    <h2>Seção 13</h2>
-    <label for="input-13">Configuração 13:</label>
-    <input type="text" id="input-13" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(13)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-14">
-    <h2>Seção 14</h2>
-    <label for="input-14">Configuração 14:</label>
-    <input type="text" id="input-14" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(14)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-15">
-    <h2>Seção 15</h2>
-    <label for="input-15">Configuração 15:</label>
-    <input type="text" id="input-15" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(15)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-16">
-    <h2>Seção 16</h2>
-    <label for="input-16">Configuração 16:</label>
-    <input type="text" id="input-16" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(16)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-17">
-    <h2>Seção 17</h2>
-    <label for="input-17">Configuração 17:</label>
-    <input type="text" id="input-17" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(17)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-18">
-    <h2>Seção 18</h2>
-    <label for="input-18">Configuração 18:</label>
-    <input type="text" id="input-18" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(18)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-19">
-    <h2>Seção 19</h2>
-    <label for="input-19">Configuração 19:</label>
-    <input type="text" id="input-19" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(19)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-20">
-    <h2>Seção 20</h2>
-    <label for="input-20">Configuração 20:</label>
-    <input type="text" id="input-20" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(20)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-21">
-    <h2>Seção 21</h2>
-    <label for="input-21">Configuração 21:</label>
-    <input type="text" id="input-21" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(21)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-22">
-    <h2>Seção 22</h2>
-    <label for="input-22">Configuração 22:</label>
-    <input type="text" id="input-22" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(22)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-23">
-    <h2>Seção 23</h2>
-    <label for="input-23">Configuração 23:</label>
-    <input type="text" id="input-23" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(23)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-24">
-    <h2>Seção 24</h2>
-    <label for="input-24">Configuração 24:</label>
-    <input type="text" id="input-24" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(24)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-25">
-    <h2>Seção 25</h2>
-    <label for="input-25">Configuração 25:</label>
-    <input type="text" id="input-25" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(25)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-26">
-    <h2>Seção 26</h2>
-    <label for="input-26">Configuração 26:</label>
-    <input type="text" id="input-26" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(26)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-27">
-    <h2>Seção 27</h2>
-    <label for="input-27">Configuração 27:</label>
-    <input type="text" id="input-27" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(27)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-28">
-    <h2>Seção 28</h2>
-    <label for="input-28">Configuração 28:</label>
-    <input type="text" id="input-28" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(28)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-29">
-    <h2>Seção 29</h2>
-    <label for="input-29">Configuração 29:</label>
-    <input type="text" id="input-29" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(29)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-30">
-    <h2>Seção 30</h2>
-    <label for="input-30">Configuração 30:</label>
-    <input type="text" id="input-30" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(30)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-31">
-    <h2>Seção 31</h2>
-    <label for="input-31">Configuração 31:</label>
-    <input type="text" id="input-31" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(31)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-32">
-    <h2>Seção 32</h2>
-    <label for="input-32">Configuração 32:</label>
-    <input type="text" id="input-32" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(32)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-33">
-    <h2>Seção 33</h2>
-    <label for="input-33">Configuração 33:</label>
-    <input type="text" id="input-33" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(33)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-34">
-    <h2>Seção 34</h2>
-    <label for="input-34">Configuração 34:</label>
-    <input type="text" id="input-34" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(34)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-35">
-    <h2>Seção 35</h2>
-    <label for="input-35">Configuração 35:</label>
-    <input type="text" id="input-35" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(35)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-36">
-    <h2>Seção 36</h2>
-    <label for="input-36">Configuração 36:</label>
-    <input type="text" id="input-36" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(36)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-37">
-    <h2>Seção 37</h2>
-    <label for="input-37">Configuração 37:</label>
-    <input type="text" id="input-37" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(37)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-38">
-    <h2>Seção 38</h2>
-    <label for="input-38">Configuração 38:</label>
-    <input type="text" id="input-38" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(38)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-39">
-    <h2>Seção 39</h2>
-    <label for="input-39">Configuração 39:</label>
-    <input type="text" id="input-39" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(39)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-40">
-    <h2>Seção 40</h2>
-    <label for="input-40">Configuração 40:</label>
-    <input type="text" id="input-40" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(40)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-41">
-    <h2>Seção 41</h2>
-    <label for="input-41">Configuração 41:</label>
-    <input type="text" id="input-41" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(41)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-42">
-    <h2>Seção 42</h2>
-    <label for="input-42">Configuração 42:</label>
-    <input type="text" id="input-42" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(42)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-43">
-    <h2>Seção 43</h2>
-    <label for="input-43">Configuração 43:</label>
-    <input type="text" id="input-43" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(43)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-44">
-    <h2>Seção 44</h2>
-    <label for="input-44">Configuração 44:</label>
-    <input type="text" id="input-44" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(44)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-45">
-    <h2>Seção 45</h2>
-    <label for="input-45">Configuração 45:</label>
-    <input type="text" id="input-45" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(45)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-46">
-    <h2>Seção 46</h2>
-    <label for="input-46">Configuração 46:</label>
-    <input type="text" id="input-46" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(46)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-47">
-    <h2>Seção 47</h2>
-    <label for="input-47">Configuração 47:</label>
-    <input type="text" id="input-47" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(47)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-48">
-    <h2>Seção 48</h2>
-    <label for="input-48">Configuração 48:</label>
-    <input type="text" id="input-48" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(48)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-49">
-    <h2>Seção 49</h2>
-    <label for="input-49">Configuração 49:</label>
-    <input type="text" id="input-49" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(49)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-50">
-    <h2>Seção 50</h2>
-    <label for="input-50">Configuração 50:</label>
-    <input type="text" id="input-50" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(50)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-51">
-    <h2>Seção 51</h2>
-    <label for="input-51">Configuração 51:</label>
-    <input type="text" id="input-51" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(51)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-52">
-    <h2>Seção 52</h2>
-    <label for="input-52">Configuração 52:</label>
-    <input type="text" id="input-52" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(52)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-53">
-    <h2>Seção 53</h2>
-    <label for="input-53">Configuração 53:</label>
-    <input type="text" id="input-53" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(53)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-54">
-    <h2>Seção 54</h2>
-    <label for="input-54">Configuração 54:</label>
-    <input type="text" id="input-54" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(54)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-55">
-    <h2>Seção 55</h2>
-    <label for="input-55">Configuração 55:</label>
-    <input type="text" id="input-55" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(55)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-56">
-    <h2>Seção 56</h2>
-    <label for="input-56">Configuração 56:</label>
-    <input type="text" id="input-56" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(56)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-57">
-    <h2>Seção 57</h2>
-    <label for="input-57">Configuração 57:</label>
-    <input type="text" id="input-57" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(57)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-58">
-    <h2>Seção 58</h2>
-    <label for="input-58">Configuração 58:</label>
-    <input type="text" id="input-58" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(58)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-59">
-    <h2>Seção 59</h2>
-    <label for="input-59">Configuração 59:</label>
-    <input type="text" id="input-59" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(59)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-60">
-    <h2>Seção 60</h2>
-    <label for="input-60">Configuração 60:</label>
-    <input type="text" id="input-60" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(60)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-61">
-    <h2>Seção 61</h2>
-    <label for="input-61">Configuração 61:</label>
-    <input type="text" id="input-61" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(61)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-62">
-    <h2>Seção 62</h2>
-    <label for="input-62">Configuração 62:</label>
-    <input type="text" id="input-62" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(62)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-63">
-    <h2>Seção 63</h2>
-    <label for="input-63">Configuração 63:</label>
-    <input type="text" id="input-63" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(63)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-64">
-    <h2>Seção 64</h2>
-    <label for="input-64">Configuração 64:</label>
-    <input type="text" id="input-64" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(64)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-65">
-    <h2>Seção 65</h2>
-    <label for="input-65">Configuração 65:</label>
-    <input type="text" id="input-65" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(65)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-66">
-    <h2>Seção 66</h2>
-    <label for="input-66">Configuração 66:</label>
-    <input type="text" id="input-66" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(66)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-67">
-    <h2>Seção 67</h2>
-    <label for="input-67">Configuração 67:</label>
-    <input type="text" id="input-67" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(67)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-68">
-    <h2>Seção 68</h2>
-    <label for="input-68">Configuração 68:</label>
-    <input type="text" id="input-68" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(68)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-69">
-    <h2>Seção 69</h2>
-    <label for="input-69">Configuração 69:</label>
-    <input type="text" id="input-69" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(69)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-70">
-    <h2>Seção 70</h2>
-    <label for="input-70">Configuração 70:</label>
-    <input type="text" id="input-70" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(70)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-71">
-    <h2>Seção 71</h2>
-    <label for="input-71">Configuração 71:</label>
-    <input type="text" id="input-71" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(71)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-72">
-    <h2>Seção 72</h2>
-    <label for="input-72">Configuração 72:</label>
-    <input type="text" id="input-72" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(72)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-73">
-    <h2>Seção 73</h2>
-    <label for="input-73">Configuração 73:</label>
-    <input type="text" id="input-73" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(73)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-74">
-    <h2>Seção 74</h2>
-    <label for="input-74">Configuração 74:</label>
-    <input type="text" id="input-74" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(74)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-75">
-    <h2>Seção 75</h2>
-    <label for="input-75">Configuração 75:</label>
-    <input type="text" id="input-75" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(75)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-76">
-    <h2>Seção 76</h2>
-    <label for="input-76">Configuração 76:</label>
-    <input type="text" id="input-76" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(76)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-77">
-    <h2>Seção 77</h2>
-    <label for="input-77">Configuração 77:</label>
-    <input type="text" id="input-77" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(77)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-78">
-    <h2>Seção 78</h2>
-    <label for="input-78">Configuração 78:</label>
-    <input type="text" id="input-78" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(78)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-79">
-    <h2>Seção 79</h2>
-    <label for="input-79">Configuração 79:</label>
-    <input type="text" id="input-79" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(79)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-80">
-    <h2>Seção 80</h2>
-    <label for="input-80">Configuração 80:</label>
-    <input type="text" id="input-80" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(80)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-81">
-    <h2>Seção 81</h2>
-    <label for="input-81">Configuração 81:</label>
-    <input type="text" id="input-81" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(81)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-82">
-    <h2>Seção 82</h2>
-    <label for="input-82">Configuração 82:</label>
-    <input type="text" id="input-82" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(82)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-83">
-    <h2>Seção 83</h2>
-    <label for="input-83">Configuração 83:</label>
-    <input type="text" id="input-83" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(83)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-84">
-    <h2>Seção 84</h2>
-    <label for="input-84">Configuração 84:</label>
-    <input type="text" id="input-84" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(84)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-85">
-    <h2>Seção 85</h2>
-    <label for="input-85">Configuração 85:</label>
-    <input type="text" id="input-85" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(85)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-86">
-    <h2>Seção 86</h2>
-    <label for="input-86">Configuração 86:</label>
-    <input type="text" id="input-86" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(86)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-87">
-    <h2>Seção 87</h2>
-    <label for="input-87">Configuração 87:</label>
-    <input type="text" id="input-87" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(87)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-88">
-    <h2>Seção 88</h2>
-    <label for="input-88">Configuração 88:</label>
-    <input type="text" id="input-88" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(88)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-89">
-    <h2>Seção 89</h2>
-    <label for="input-89">Configuração 89:</label>
-    <input type="text" id="input-89" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(89)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-90">
-    <h2>Seção 90</h2>
-    <label for="input-90">Configuração 90:</label>
-    <input type="text" id="input-90" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(90)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-91">
-    <h2>Seção 91</h2>
-    <label for="input-91">Configuração 91:</label>
-    <input type="text" id="input-91" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(91)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-92">
-    <h2>Seção 92</h2>
-    <label for="input-92">Configuração 92:</label>
-    <input type="text" id="input-92" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(92)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-93">
-    <h2>Seção 93</h2>
-    <label for="input-93">Configuração 93:</label>
-    <input type="text" id="input-93" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(93)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-94">
-    <h2>Seção 94</h2>
-    <label for="input-94">Configuração 94:</label>
-    <input type="text" id="input-94" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(94)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-95">
-    <h2>Seção 95</h2>
-    <label for="input-95">Configuração 95:</label>
-    <input type="text" id="input-95" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(95)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-96">
-    <h2>Seção 96</h2>
-    <label for="input-96">Configuração 96:</label>
-    <input type="text" id="input-96" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(96)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-97">
-    <h2>Seção 97</h2>
-    <label for="input-97">Configuração 97:</label>
-    <input type="text" id="input-97" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(97)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-98">
-    <h2>Seção 98</h2>
-    <label for="input-98">Configuração 98:</label>
-    <input type="text" id="input-98" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(98)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-99">
-    <h2>Seção 99</h2>
-    <label for="input-99">Configuração 99:</label>
-    <input type="text" id="input-99" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(99)">Salvar</button>
-  </div>
-
-  <div class="section" id="section-100">
-    <h2>Seção 100</h2>
-    <label for="input-100">Configuração 100:</label>
-    <input type="text" id="input-100" placeholder="Digite algo..." style="width: 100%; padding: 10px;">
-    <button onclick="salvarConfig(100)">Salvar</button>
-  </div>
-
-</div>
+  <header>Dashboard Tudão Oficial</header>
+  <div class="sidebar">
+    <a href="#config">⚙️ Configurações</a>
+    <a href="#analise">📊 Análises</a>
+    <a href="#blog">📝 Blog</a>
+    <a href="#portfolio">🎨 Portfólio</a>
+    <a href="#logout" onclick="logout()">🚪 Sair</a>
+  </div>
+  <main>
+<!-- Seções dinâmicas abaixo -->
 <script>
-  function salvarConfig(index) {
-    const valor = document.getElementById("input-" + index).value;
-    localStorage.setItem("config-" + index, valor);
-    alert("Configuração " + index + " salva!");
-  }
-
-  document.addEventListener("DOMContentLoaded", () => {
-    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-    const overlay = document.getElementById('loginOverlay');
-    const dash = document.getElementById('dashboardContent');
-
-    if (isLoggedIn) {
-      overlay.style.display = 'none';
-      dash.style.display = 'block';
-    } else {
-      overlay.style.display = 'flex';
-      dash.style.display = 'none';
-    }
-  });
+function salvar(i) {
+  const nome = document.getElementById('input' + i).value;
+  const desc = document.getElementById('area' + i).value;
+  alert('Configuração ' + i + ' salva:\n' + nome + '\n' + desc);
+}
+function logout() {
+  localStorage.removeItem('isLoggedIn');
+  window.location.href = "https://ffalido.github.io/noeli.net/login.html";
+}
 </script>
+</main>
 </body>
 </html>
