@@ -515,10 +515,9 @@
             showAlert("Autenticação concluída! Acessando painel...", "success");
             
             // Simular autenticação bem-sucedida
-            setTimeout(() => {
-                loginContainer.style.display = 'none';
-                dashboardContainer.style.display = 'block';
-            }, 1000);
+setTimeout(() => {
+    window.location.href = "https://ffalido.github.io/noeli.net/dashboard/dashboard.html";
+}, 1000);
         });
 
         backToEmail.addEventListener('click', () => {
