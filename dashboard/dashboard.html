@@ -24,7 +24,7 @@
       flex-direction: column;
       z-index: 9999;
     }
-    .login-overlay button {
+    .glass-button {
       background: rgba(255,255,255,0.1);
       color: #a855f7;
       border: 1px solid #a855f7;
@@ -32,6 +32,11 @@
       font-size: 16px;
       border-radius: 12px;
       cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .glass-button:hover {
+      background: rgba(168, 85, 247, 0.2);
+      transform: scale(1.05);
     }
     .section {
       padding: 40px;
@@ -40,9 +45,12 @@
   </style>
 </head>
 <body>
+
 <div id="loginOverlay" class="login-overlay" style="display: none;">
   <h2>Você não está logado!</h2>
-  <button onclick="window.location.href='login.html'">Voltar ao Login</button>
+  <button onclick="window.location.href='https://ffalido.github.io/noeli.net/login.html'" class="glass-button">
+    Voltar para o Login
+  </button>
 </div>
 
 <div id="dashboardContent" style="display: none;">
@@ -749,13 +757,26 @@
   </div>
 
 </div>
-<script src="../assets/js/dashboard.js"></script>
 <script>
-  if (localStorage.getItem('isLoggedIn') !== 'true') {
-    document.getElementById('loginOverlay').style.display = 'flex';
-  } else {
-    document.getElementById('dashboardContent').style.display = 'block';
+  function salvarConfig(index) {
+    const valor = document.getElementById("input-" + index).value;
+    localStorage.setItem("config-" + index, valor);
+    alert("Configuração " + index + " salva!");
   }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+    const overlay = document.getElementById('loginOverlay');
+    const dash = document.getElementById('dashboardContent');
+
+    if (isLoggedIn) {
+      overlay.style.display = 'none';
+      dash.style.display = 'block';
+    } else {
+      overlay.style.display = 'flex';
+      dash.style.display = 'none';
+    }
+  });
 </script>
 </body>
 </html>
