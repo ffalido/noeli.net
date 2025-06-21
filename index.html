@@ -15,6 +15,49 @@
 
 
     <style>
+
+/* glass*/
+.glass-ball {
+  width: 80px;
+  height: 80px;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.05);
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAIAAAB7nJ/SAAAACXBIWXMAAAsTAAALEwEAmpwYAAABFElEQVR4nGNgYGD4z8DAwMiAARMDQzDCxMDAwPCfkGRgYGB4jMgPj/xA4/3n5HxQmC0oMwzAzMDCw8P+fB4YGBgYxAcSgoqKijYGj0MDAwMDAwPFQIDQ3wzPDw8P3zAwMDAwMDA+GhpaGkpWQGQzADAwPDw8PD1cDAwMDA8MhM5wMDQ7/5Dw8PDycDAwMDAwPjDMDAwMDAwMHxmYmBg+McH2JgsBf6ZsIPD09jAwPDz8ExISAwPDw8PD7BgYGJgYGBjA+//59YGBgeKQAMnHdC2aYwZtAAAAAElFTkSuQmCC");
+  background-repeat: repeat;
+  background-size: cover;
+  mix-blend-mode: overlay;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: url(#frosted);
+  -webkit-backdrop-filter: url(#frosted);
+  animation: move 6s ease-in-out infinite;
+  z-index: 2;
+}
+
+@keyframes move {
+  0% { transform: translateY(0px) scale(1); }
+  50% { transform: translateY(6px) scale(1.05); }
+  100% { transform: translateY(0px) scale(1); }
+}
+
+<svg style="display:none;">
+  <filter id="frosted">
+    <feTurbulence type="turbulence" baseFrequency="0.01" numOctaves="1" result="turbulence"/>
+    <feDisplacementMap in="SourceGraphic" in2="turbulence" scale="10" xChannelSelector="R" yChannelSelector="G"/>
+    <feGaussianBlur stdDeviation="2"/>
+  </filter>
+</svg>
+
+
+.topnav {
+  position: relative;
+  overflow: hidden;
+}
+
+        /* aqui e o ok*/
   .ok-toast {
     position: fixed;
     bottom: 40px;
@@ -1402,6 +1445,18 @@ header::after {
     </style>
 </head>
 <body>
+
+<div id="preloader">
+  <div class="loader">
+    <div class="loader__bar"></div>
+    <div class="loader__bar"></div>
+    <div class="loader__bar"></div>
+    <div class="loader__bar"></div>
+    <div class="loader__bar"></div>
+    <div class="loader__ball"></div>
+  </div>
+</div>
+
     <!-- Partículas de fundo -->
     <div id="particles-js"></div>
 
