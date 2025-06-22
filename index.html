@@ -1124,11 +1124,16 @@ header::after {
             transform: translateY(-3px);
         }
 
-        .portfolio-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 1.5rem;
-        }
+.portfolio-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 1rem;
+  justify-content: center;
+}
 
         .portfolio-item {
             position: relative;
@@ -1223,6 +1228,13 @@ header::after {
             height: 100%;
             z-index: 1;
         }
+
+.portfolio-section h4 {
+  color: red;
+  margin-top: 0.25rem;
+  margin-bottom: 1rem;
+  text-align: center;
+}
 
         /* Página de Links & Redes */
         .links-section {
@@ -1936,6 +1948,8 @@ header::after {
         <!-- Seção Portfólio -->
         <section id="portfolio" class="portfolio-section">
             <h2>Portfólio Central</h2>
+            <h4> Atenção, As imagens estão no tamanho incorreto, o tamanho certo é 1280px x 720px</h4>
+            <h4> E agulmas podem estar corrompidas</h4>
             <div class="portfolio-filter">
                 <button class="filter-btn active">Todos</button>
                 <button class="filter-btn">Valorant</button>
@@ -1943,6 +1957,7 @@ header::after {
                 <button class="filter-btn">Minecraft</button>
                 <button class="filter-btn">Outros</button>
             </div>
+
             <div class="portfolio-grid">
                 <div class="portfolio-item">
                     <img src="assets/images/jrtv16.png" alt="Thumbnail 1" class="portfolio-img">
