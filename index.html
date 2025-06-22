@@ -13,8 +13,215 @@
     <link href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" rel="stylesheet">
     <link rel="icon" href="assets/Images/nmrv21.png" type="image/png">
 
-
     <style>
+
+#faqBtn {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #8e2de2, #4a00e0);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.5);
+  border: none;
+  cursor: pointer;
+  z-index: 9999;
+  transition: transform 0.2s ease;
+  animation: popBounce 1s ease-out;
+}
+
+#faqBtn:hover {
+  transform: scale(1.08);
+}
+
+#faqBtn i {
+  color: white;
+  font-size: 24px;
+  animation: spinGlow 2s infinite ease-in-out;
+}
+
+@keyframes popBounce {
+  0% {
+    transform: scale(0.4);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+  80% {
+    transform: scale(0.95);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes spinGlow {
+  0%, 100% {
+    filter: drop-shadow(0 0 4px #a455ff);
+    transform: rotate(0deg);
+  }
+  50% {
+    filter: drop-shadow(0 0 10px #a455ff);
+    transform: rotate(10deg);
+  }
+}
+
+#faqContainer {
+  position: fixed;
+  inset: 0;
+  background: #121212;
+  color: white;
+  z-index: 9998;
+  padding: 120px 20px 60px; /* mais pra baixo */
+  overflow-y: auto;
+  display: none;
+  animation: pagePopIn 0.6s ease forwards;
+}
+
+@keyframes pagePopIn {
+  from { opacity: 0; transform: translateY(50px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.neon-title {
+  font-size: 3rem;
+  text-align: center;
+  margin-bottom: 30px;
+  text-shadow: var(--glow);
+}
+
+.blink {
+  animation: blink 1s infinite step-end;
+  color: var(--ciano);
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+/* FAQ BOX */
+.faq-neon {
+  max-width: 700px;
+  margin: auto;
+  padding: 25px;
+  background: var(--glass);
+  border: 2px solid var(--roxao);
+  border-radius: 15px;
+  box-shadow: 0 0 30px rgba(188, 19, 254, 0.6);
+  backdrop-filter: blur(10px);
+}
+
+.neon-item {
+  margin-bottom: 20px;
+  border-radius: 10px;
+  background: rgba(40, 10, 60, 0.5);
+  border: 1px solid rgba(188, 19, 254, 0.3);
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.neon-q {
+  display: flex;
+  align-items: center;
+  padding: 18px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: white;
+}
+
+.neon-icon {
+  color: var(--roxao);
+  margin-right: 15px;
+  font-size: 1.5rem;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.2); opacity: 1; }
+}
+
+.neon-toggle {
+  margin-left: auto;
+  font-size: 1.8rem;
+  color: var(--roxao);
+  transition: all 0.3s ease;
+}
+
+.neon-a {
+  max-height: 0;
+  overflow: hidden;
+  padding: 0 20px;
+  transition: all 0.5s ease;
+  background: rgba(70, 0, 130, 0.3);
+}
+
+.neon-item.active .neon-a {
+  max-height: 200px;
+  padding: 20px;
+}
+
+.neon-item.active .neon-toggle {
+  transform: rotate(45deg);
+  color: var(--ciano);
+}
+
+.faq-neon:hover {
+  transform: rotateX(1deg) rotateY(1deg);
+  transition: transform 0.4s ease-out;
+}
+
+/* EXTRAS */
+.faq-neon::before {
+  content: '';
+  position: absolute;
+  top: -10%;
+  left: -10%;
+  width: 120%;
+  height: 120%;
+  background: radial-gradient(circle at center, rgba(164, 85, 255, 0.1), transparent);
+  pointer-events: none;
+  z-index: -1;
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+/* RESPONSIVO */
+@media (max-width: 768px) {
+  .neon-title {
+    font-size: 2.2rem;
+  }
+
+  .neon-q {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  #faqBtn {
+    width: 50px;
+    height: 50px;
+  }
+
+  .neon-icon {
+    font-size: 1.2rem;
+  }
+
+  .neon-toggle {
+    font-size: 1.5rem;
+  }
+}
+
+/* FIM */
+
 
 /* glass*/
 .glass-ball {
@@ -1960,9 +2167,59 @@ header::after {
 
             </form>
         </section>
-
-
             </div>
+
+
+<!-- Página FAQ -->
+<button id="faqBtn" onclick="openFaq()">
+  <i class="fas fa-question"></i>
+</button>
+
+<!-- Página FAQ -->
+<div id="faqContainer">
+<h2> Perguntas Frequentes/FAQ</h2>
+  <div class="faq-neon">
+
+    <!-- ITEM 1 -->
+    <div class="neon-item">
+      <div class="neon-q">
+        <i class="fas fa-bolt neon-icon"></i>
+        Como o site foi criado, e como funciona?
+        <i class="fas fa-plus neon-toggle"></i>
+      </div>
+      <div class="neon-a">
+        Nosso site foi criado usando progamação, ex.: html,css,js, e para ele ser rodado e hospedado usamos a plataforma GitHub, ja que dominios ou urls, custom muitos, e futuramente quem sabe o site roda via local??.
+      </div>
+    </div>
+
+    <!-- ITEM 2 -->
+    <div class="neon-item">
+      <div class="neon-q">
+        <i class="fas fa-magic neon-icon"></i>
+        Vocês fazem thumbnails? E como elas são feitas?
+        <i class="fas fa-plus neon-toggle"></i>
+      </div>
+      <div class="neon-a">
+        Cada thumbnail efeito por o tamanho pedido pelo cliente mas também dependendo do seu plano pode ser difernte, mas o formato original é 1270px por 720px, e todos feito no aplicativo Adobe Photoshop.
+      </div>
+    </div>
+
+    <!-- ITEM 3 -->
+    <div class="neon-item">
+      <div class="neon-q">
+        <i class="fas fa-palette neon-icon"></i>
+        Posso pedir um estilo específico? Ou solicitar uma proposta?
+        <i class="fas fa-plus neon-toggle"></i>
+      </div>
+      <div class="neon-a">
+        Temos nossa <abbr title="Página">pág</abbr> oficial, de orçamentos, e propostas, onde você pode personalizar, ou escolher um plano, e com isso entramos em contato e negociamos um valor.
+      </div>
+    </div>
+  Cuidado, Está página ainda está em desvenvolvimento! <a href="https://ffalido.github.io/noeli.net/">Clique Aqui Para voltar para a página Durante Manutenção</a>
+  </div>
+</div>
+
+
         </section>
     </main>
 
@@ -2346,7 +2603,48 @@ document.addEventListener('DOMContentLoaded', () => {
   gtag('js', new Date());
 
   gtag('config', 'G-GNJWZ8MDRC');
-  
+
+ // mds
+  function openFaq() {
+    const faq = document.getElementById("faqContainer");
+    faq.style.display = "block";
+    faq.scrollTop = 0;
+  }
+
+  function closeFaq() {
+    document.getElementById("faqContainer").style.display = "none";
+  }
+
+// Adicione isso se quiser que as perguntas sejam clicáveis
+document.getElementById("faqBtn").onclick = () => {
+  document.getElementById("faqContainer").style.display = "block";
+  document.getElementById("faqContainer").scrollTo({ top: 0, behavior: "smooth" });
+  const audio = new Audio("https://cdn.pixabay.com/download/audio/2022/03/15/audio_1c2e861301.mp3?filename=neon-click-112933.mp3");
+  audio.volume = 0.3;
+  audio.play();
+};
+
+document.querySelectorAll(".neon-q").forEach(item => {
+  item.onclick = () => {
+    const faqItem = item.parentElement;
+    faqItem.classList.toggle("active");
+
+    const icon = item.querySelector(".neon-toggle");
+    icon.classList.toggle("rotate");
+
+    const bounce = new Audio("https://cdn.pixabay.com/download/audio/2022/03/15/audio_7027a1bbf2.mp3?filename=ui-click-116172.mp3");
+    bounce.volume = 0.2;
+    bounce.play();
+  };
+});
+
+// ESC fecha FAQ
+document.addEventListener("keydown", e => {
+  if (e.key === "Escape") {
+    document.getElementById("faqContainer").style.display = "none";
+  }
+});
+
     </script>
 </body>
 </html>
