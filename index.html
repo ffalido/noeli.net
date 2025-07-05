@@ -11,7 +11,7 @@
     <title>noeli.net</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" rel="stylesheet">
-    <link rel="icon" href="assets/Images/nmrv21.png" type="image/png">
+    <link rel="icon" href="images/nmrv23.png" type="image/png">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 
     <style>
@@ -23,7 +23,7 @@
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  background: linear-gradient(145deg, #8e2de2, #4a00e0);
+  background: linear-gradient(145deg, #e2c12d, #e0ac00);
   box-shadow: 0 8px 16px rgba(0,0,0,0.5);
   border: none;
   cursor: pointer;
@@ -61,11 +61,11 @@
 
 @keyframes spinGlow {
   0%, 100% {
-    filter: drop-shadow(0 0 4px #a455ff);
+    filter: drop-shadow(0 0 4px #ffee55);
     transform: rotate(0deg);
   }
   50% {
-    filter: drop-shadow(0 0 10px #a455ff);
+    filter: drop-shadow(0 0 10px #fff455);
     transform: rotate(10deg);
   }
 }
@@ -111,15 +111,15 @@
   background: var(--glass);
   border: 2px solid var(--roxao);
   border-radius: 15px;
-  box-shadow: 0 0 30px rgba(188, 19, 254, 0.6);
+  box-shadow: 0 0 30px rgba(254, 211, 19, 0.6);
   backdrop-filter: blur(10px);
 }
 
 .neon-item {
   margin-bottom: 20px;
   border-radius: 10px;
-  background: rgba(40, 10, 60, 0.5);
-  border: 1px solid rgba(188, 19, 254, 0.3);
+  background: rgba(60, 42, 10, 0.5);
+  border: 1px solid rgba(254, 180, 19, 0.3);
   overflow: hidden;
   transition: all 0.3s ease;
 }
@@ -158,7 +158,7 @@
   overflow: hidden;
   padding: 0 20px;
   transition: all 0.5s ease;
-  background: rgba(70, 0, 130, 0.3);
+  background: rgba(130, 85, 0, 0.3);
 }
 
 .neon-item.active .neon-a {
@@ -184,7 +184,7 @@
   left: -10%;
   width: 120%;
   height: 120%;
-  background: radial-gradient(circle at center, rgba(164, 85, 255, 0.1), transparent);
+  background: radial-gradient(circle at center, rgba(255, 229, 85, 0.1), transparent);
   pointer-events: none;
   z-index: -1;
   animation: float 6s ease-in-out infinite;
@@ -285,7 +285,7 @@
 
   .ok-toast i {
     font-size: 22px;
-    color: #a855f7;
+    color: #f7d955;
   }
 
   @keyframes slideToast {
@@ -328,10 +328,10 @@
         }
 
         :root {
-            --primary-color: #6a0dad;
-            --primary-dark: #4b0082;
-            --primary-light: #9b59b6;
-            --secondary-color: #ff6bff;
+            --primary-color: #f0ab17;
+            --primary-dark: #c08402;
+            --primary-light: #f1a634;
+            --secondary-color: #ffd000;
             --text-color: #f0f0f0;
             --text-dark: #b8b8b8;
             --bg-color: #121212;
@@ -348,7 +348,7 @@
             overflow-x: hidden;
             position: relative;
             min-height: 100vh;
-            cursor: url("assets/cursors/PandO/PandO\ dark/Normal.png") , auto;
+            cursor: url("assets/cursors/pointer32.png") , auto;
         }
 
         #particles-js {
@@ -625,12 +625,12 @@ header::after {
         .btn-primary {
             background: linear-gradient(45deg, var(--primary-light), var(--secondary-color));
             color: white;
-            box-shadow: 0 4px 15px rgba(155, 89, 182, 0.4);
+            box-shadow: 0 4px 15px rgba(228, 141, 12, 0.4);
         }
 
         .btn-primary:hover {
             transform: translateY(-5px) scale(1.05);
-            box-shadow: 0 15px 30px rgba(155, 89, 182, 0.5);
+            box-shadow: 0 15px 30px rgba(206, 124, 16, 0.5);
             animation: pulse 1.5s infinite;
         }
 
@@ -659,7 +659,7 @@ header::after {
         }
 
         .btn-secondary:hover {
-            background-color: rgba(106, 13, 173, 0.2);
+            background-color: rgba(221, 150, 17, 0.2);
             transform: translateY(-5px) scale(1.05);
             color: var(--secondary-color);
             border-color: var(--secondary-color);
@@ -694,7 +694,7 @@ header::after {
             border-radius: 15px;
             padding: 2.5rem;
             transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            border: 1px solid rgba(106, 13, 173, 0.2);
+            border: 1px solid rgba(214, 171, 27, 0.2);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
             opacity: 0;
             animation: fadeIn 0.8s ease-out forwards;
@@ -707,7 +707,7 @@ header::after {
 
         .feature-card:hover {
             transform: translateY(-10px) scale(1.03);
-            box-shadow: 0 20px 40px rgba(106, 13, 173, 0.3);
+            box-shadow: 0 20px 40px rgba(209, 172, 8, 0.3);
             border-color: var(--primary-light);
         }
 
@@ -768,7 +768,7 @@ header::after {
             max-width: 850px;
             margin: 0 auto;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            border: 1px solid rgba(106, 13, 173, 0.3);
+            border: 1px solid rgba(173, 104, 13, 0.3);
             transform: perspective(1000px) rotateX(0deg);
             transition: transform 0.5s ease, box-shadow 0.5s ease;
             animation: slideInFromBottom 0.8s ease-out;
@@ -776,7 +776,7 @@ header::after {
 
         .budget-form:hover {
             transform: perspective(1000px) rotateX(5deg);
-            box-shadow: 0 15px 40px rgba(106, 13, 173, 0.3);
+            box-shadow: 0 15px 40px rgba(173, 117, 13, 0.3);
         }
 
         .form-group {
@@ -800,7 +800,7 @@ header::after {
             width: 100%;
             padding: 0.8rem 1.2rem;
             border-radius: 8px;
-            border: 1px solid rgba(106, 13, 173, 0.5);
+            border: 1px solid rgba(173, 117, 13, 0.5);
             background-color: var(--bg-color);
             color: var(--text-color);
             font-size: 1rem;
@@ -810,7 +810,7 @@ header::after {
         .form-control:focus {
             outline: none;
             border-color: var(--secondary-color);
-            box-shadow: 0 0 0 3px rgba(155, 89, 182, 0.3);
+            box-shadow: 0 0 0 3px rgba(182, 139, 89, 0.3);
             transform: scale(1.02);
         }
 
@@ -838,7 +838,7 @@ header::after {
 
         .submit-btn:hover {
             transform: translateY(-3px) scale(1.02);
-            box-shadow: 0 10px 25px rgba(155, 89, 182, 0.5);
+            box-shadow: 0 10px 25px rgba(182, 160, 89, 0.5);
         }
 
         .submit-btn::after {
@@ -884,7 +884,7 @@ header::after {
             border-radius: 15px;
             padding: 2rem;
             transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            border: 1px solid rgba(106, 13, 173, 0.2);
+            border: 1px solid rgba(173, 170, 13, 0.2);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
             opacity: 0;
             transform: translateY(20px);
@@ -907,7 +907,7 @@ header::after {
 
         .proposal-card:hover {
             transform: translateY(-10px) scale(1.03);
-            box-shadow: 0 20px 40px rgba(106, 13, 173, 0.3);
+            box-shadow: 0 20px 40px rgba(173, 149, 13, 0.3);
             border-color: var(--primary-light);
         }
 
@@ -917,7 +917,7 @@ header::after {
             align-items: center;
             margin-bottom: 1.5rem;
             padding-bottom: 1rem;
-            border-bottom: 1px solid rgba(106, 13, 173, 0.3);
+            border-bottom: 1px solid rgba(173, 117, 13, 0.3);
         }
 
         .proposal-title {
@@ -986,7 +986,7 @@ header::after {
 
         .proposal-btn:hover {
             transform: translateY(-3px) scale(1.03);
-            box-shadow: 0 10px 25px rgba(155, 89, 182, 0.5);
+            box-shadow: 0 10px 25px rgba(182, 153, 89, 0.5);
         }
 
         /* Página de Feedbacks */
@@ -1018,7 +1018,7 @@ header::after {
             padding: 2rem;
             max-width: 350px;
             transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            border: 1px solid rgba(106, 13, 173, 0.2);
+            border: 1px solid rgba(173, 117, 13, 0.2);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
             opacity: 0;
             animation: fadeIn 0.8s ease-out forwards;
@@ -1031,7 +1031,7 @@ header::after {
 
         .testimonial-card:hover {
             transform: translateY(-10px) scale(1.03);
-            box-shadow: 0 20px 40px rgba(106, 13, 173, 0.3);
+            box-shadow: 0 20px 40px rgba(173, 130, 13, 0.3);
             border-color: var(--primary-light);
         }
 
@@ -1165,7 +1165,7 @@ header::after {
 
         .portfolio-item:hover {
             transform: scale(1.05) rotate(2deg);
-            box-shadow: 0 20px 40px rgba(106, 13, 173, 0.4);
+            box-shadow: 0 20px 40px rgba(173, 144, 13, 0.4);
             z-index: 2;
         }
 
@@ -1186,7 +1186,7 @@ header::after {
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(to top, rgba(74, 20, 140, 0.9), rgba(155, 89, 182, 0.7));
+            background: linear-gradient(to top, rgba(241, 208, 19, 0.9), rgba(241, 185, 30, 0.7));
             display: flex;
             flex-direction: column;
             justify-content: flex-end;
@@ -1267,7 +1267,7 @@ header::after {
             padding: 2rem;
             text-align: center;
             transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            border: 1px solid rgba(106, 13, 173, 0.2);
+            border: 1px solid rgba(173, 136, 13, 0.2);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
             opacity: 0;
             animation: fadeIn 0.8s ease-out forwards;
@@ -1282,7 +1282,7 @@ header::after {
 
         .social-card:hover {
             transform: translateY(-10px) scale(1.03);
-            box-shadow: 0 20px 40px rgba(106, 13, 173, 0.3);
+            box-shadow: 0 20px 40px rgba(173, 122, 13, 0.3);
             border-color: var(--primary-light);
         }
 
@@ -1333,7 +1333,7 @@ header::after {
 
         .social-link:hover {
             transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(155, 89, 182, 0.4);
+            box-shadow: 0 10px 20px rgba(238, 196, 10, 0.4);
         }
 
                 /* Página de Termos */
@@ -1360,7 +1360,7 @@ header::after {
             max-width: 850px;
             margin: 0 auto;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            border: 1px solid rgba(106, 13, 173, 0.3);
+            border: 1px solid rgba(173, 130, 13, 0.3);
             transform: perspective(1000px) rotateX(0deg);
             transition: transform 0.5s ease, box-shadow 0.5s ease;
             animation: slideInFromBottom 0.8s ease-out;
@@ -1368,7 +1368,7 @@ header::after {
 
         .terms-form:hover {
             transform: perspective(1000px) rotateX(5deg);
-            box-shadow: 0 15px 40px rgba(106, 13, 173, 0.3);
+            box-shadow: 0 15px 40px rgba(173, 144, 13, 0.3);
         }
 
         .form-group {
@@ -1392,7 +1392,7 @@ header::after {
             width: 100%;
             padding: 0.8rem 1.2rem;
             border-radius: 8px;
-            border: 1px solid rgba(106, 13, 173, 0.5);
+            border: 1px solid rgba(173, 136, 13, 0.5);
             background-color: var(--bg-color);
             color: var(--text-color);
             font-size: 1rem;
@@ -1402,7 +1402,7 @@ header::after {
         .form-control:focus {
             outline: none;
             border-color: var(--secondary-color);
-            box-shadow: 0 0 0 3px rgba(155, 89, 182, 0.3);
+            box-shadow: 0 0 0 3px rgba(182, 168, 89, 0.3);
             transform: scale(1.02);
         }
 
@@ -1430,7 +1430,7 @@ header::after {
 
         .submit-btn:hover {
             transform: translateY(-3px) scale(1.02);
-            box-shadow: 0 10px 25px rgba(155, 89, 182, 0.5);
+            box-shadow: 0 10px 25px rgba(182, 150, 89, 0.5);
         }
 
         .submit-btn::after {
@@ -1456,7 +1456,7 @@ header::after {
             padding: 3rem 2rem;
             text-align: center;
             margin-top: 5rem;
-            border-top: 1px solid rgba(106, 13, 173, 0.3);
+            border-top: 1px solid rgba(173, 130, 13, 0.3);
         }
 
         .footer-container {
@@ -1822,7 +1822,6 @@ header::after {
         <!-- Seção Propostas -->
         <section id="proposals" class="proposals-section">
             <h2>Atendimento</h2>
-            <h3> Horarios De Atendimento</h3>
             <div class="proposal-grid">
                 <div class="proposal-card">
                     <div class="proposal-header">
@@ -2313,7 +2312,7 @@ header::after {
         <div class="footer-wave"></div>
         <div class="footer-container">
             <div class="footer-logo">
-                <img src="images/nmrv21.png" alt="noeli.net">
+                <img src="images/nmrv23.png" alt="noeli.net">
                 <h2><a href="#home"><abbr title="noeliᴮᴿ - Home">noeli.net ©</abbr></a></h2>
             </div>
             
